@@ -32,7 +32,6 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           yarn install
       - name: Build and deploy
