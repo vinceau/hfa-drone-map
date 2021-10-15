@@ -26,17 +26,17 @@ jobs:
         id: cache
         with:
           path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
       - name: Install dependencies
         run: |
-          yarn install
+          npm install
       - name: Build and deploy
         run: |
-          yarn run build
+          npm run build
         env:
           REACT_APP_MAPBOX_KEY: ${{ secrets.REACT_APP_MAPBOX_KEY }}
           REACT_APP_TEST_KEY: ${{ secrets.REACT_APP_TEST_KEY }}
