@@ -47,3 +47,8 @@ jobs:
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./build
           CI: true
+      - name: Archive
+        uses: actions/upload-artifact@main
+        with:
+            name: Archive built artifacts
+            path: build/
