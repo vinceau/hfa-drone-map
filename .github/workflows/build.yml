@@ -38,12 +38,13 @@ jobs:
       - name: Build and deploy
         run: |
           yarn run build
+        env:
+          REACT_APP_MAPBOX_KEY: ${{ secrets.REACT_APP_MAPBOX_KEY }}
+          REACT_APP_TEST_KEY: ${{ secrets.REACT_APP_TEST_KEY }}
       - name: Publish
         uses: peaceiris/actions-gh-pages@v2.4.0
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          REACT_APP_MAPBOX_KEY: ${{ secrets.REACT_APP_MAPBOX_KEY }}
-          REACT_APP_TEST_KEY: ${{ secrets.REACT_APP_TEST_KEY }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./build
           CI: true
