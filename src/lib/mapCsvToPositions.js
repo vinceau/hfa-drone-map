@@ -11,9 +11,13 @@ export const mapCsvToPositions = (text) => {
       return null;
     }
     const id = chunks[1];
-    const lat = chunks[2];
-    const long = chunks[3];
+    const lat = mapStringToFloat(chunks[2]);
+    const long = mapStringToFloat(chunks[3]);
     return { id, lat, long };
   });
   return results.filter((r) => r !== null);
+};
+
+const mapStringToFloat = (str) => {
+  return parseFloat(str.substring(0, str.length - 1));
 };
