@@ -6,6 +6,7 @@
     "mapbox-gl": "^1.13.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-mapbox-gl": "^5.1.1",
     "react-scripts": "^3.4.3"
   },
   "scripts": {

@@ -1,48 +1,67 @@
-import React, { useRef, useEffect, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import "./Map.css";
+import React from "react";
+import ReactMapboxGl, { MapContext } from "react-mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY;
+const Map = ReactMapboxGl({
+  accessToken: process.env.REACT_APP_MAPBOX_KEY,
+});
 
-const Map = () => {
-  const mapContainerRef = useRef(null);
-
-  const [lng, setLng] = useState(5);
-  const [lat, setLat] = useState(34);
-  const [zoom, setZoom] = useState(1.5);
-
-  // Initialize map when component mounts
-  useEffect(() => {
-    const map = new mapboxgl.Map({
-      container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: zoom,
-    });
-
-    // Add navigation control (the +/- zoom buttons)
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-    map.on("move", () => {
-      setLng(map.getCenter().lng.toFixed(4));
-      setLat(map.getCenter().lat.toFixed(4));
-      setZoom(map.getZoom().toFixed(2));
-    });
-
-    // Clean up on unmount
-    return () => map.remove();
-  }, []);
-
+const MapView = () => {
   return (
     <div>
-      <div className="sidebarStyle">
-        <div>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-      </div>
-      <div className="map-container" ref={mapContainerRef} />
+      <Map
+        style="mapbox://styles/mapbox/streets-v9"
+        containerStyle={{
+          height: "100vh",
+          width: "100vw",
+        }}
+      >
+        <MapContext.Consumer>
+          {(map) => {
+
+            const data = {
+              "type": "FeatureCollection",
+              "features": [
+                  {
+                      "type": "Feature",
+                      "geometry": {
+                          "type": "LineString",
+                          "coordinates": [
+                              [
+                                  -122.019807,
+                                  45.632433
+                              ],
+                          ]
+                      }
+                  }
+              ]
+            }
+
+            map.addSource('trace', { type: 'geojson', data: data});
+            map.addLayer({
+              'id': 'trace',
+              'type': 'line',
+              'source': 'trace',
+              'paint': {
+              'line-color': 'yellow',
+              'line-opacity': 0.75,
+              'line-width': 5
+              }
+            });
+            map.panTo(data.features[0].geometry.coordinates[0]);
+            
+            map.on('click', async (e) => {
+              const {lng, lat} = e.lngLat
+              console.log([lng, lat])
+              data.features[0].geometry.coordinates.push([lng, lat]);
+              map.getSource('trace').setData(data);
+            })
+          }}
+        </MapContext.Consumer>
+      </Map>
+      ;
     </div>
   );
 };
 
-export default Map;
+export default MapView;
