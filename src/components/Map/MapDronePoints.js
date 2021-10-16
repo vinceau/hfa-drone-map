@@ -25,6 +25,19 @@ export const MapDronePoints = (props) => {
 
     map.on("mouseenter", "position-marker", (e) => {
       map.getCanvas().style.cursor = "pointer";
+
+      const [x, y] = [e.point.x, e.point.y];
+
+      const selectedFeatures = map.queryRenderedFeatures(
+        [
+          [x - 5, y - 5],
+          [x + 5, y + 5],
+        ],
+        {
+          layers: ["position-marker"],
+        },
+      );
+
       const coordinates = e.features[0].geometry.coordinates.slice();
       const properties = e.features[0].properties;
       var popupLabels = "";
@@ -34,17 +47,28 @@ export const MapDronePoints = (props) => {
       }
 
       popup.setLngLat(coordinates).addTo(map);
-
-      for (var key in properties) {
-        var title = key + ": ";
-        if (key === "DroneID") {
-          title = "<strong>" + properties[key] + "</strong><br>";
-          popupLabels += title;
-        } else if (key !== "id") {
-          popupLabels += title + properties[key] + "<br>";
-          console.log(properties[key]);
-          popup.setHTML(popupLabels);
+      if (selectedFeatures.length === 1) {
+        for (var key in properties) {
+          var title = key + ": ";
+          if (key === "DroneID") {
+            title = "<strong>" + properties[key] + "</strong><br>";
+            popupLabels += title;
+          } else if (key !== "id") {
+            popupLabels += title + properties[key] + "<br>";
+            popup.setHTML(popupLabels);
+          }
         }
+        props.showStackedEntries("");
+      } else {
+        popupLabels += "There are " + selectedFeatures.length + " entries here";
+        popup.setHTML(popupLabels);
+        props.showStackedEntries(
+          JSON.stringify(
+            selectedFeatures.map((el) => el.properties),
+            null,
+            1,
+          ),
+        );
       }
     });
 

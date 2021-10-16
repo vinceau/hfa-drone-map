@@ -11,7 +11,7 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
 });
 
-export const MapView = ({ droneLocations, onChange }) => {
+export const MapView = ({ droneLocations, onChange, showStackedEntries }) => {
   return (
     <div>
       <Map
@@ -21,7 +21,7 @@ export const MapView = ({ droneLocations, onChange }) => {
           width: "100%",
         }}
       >
-        <MapDronePoints droneLocations={droneLocations} />
+        <MapDronePoints droneLocations={droneLocations} showStackedEntries={showStackedEntries} />
 
         <MapFeatures onChange={onChange} />
       </Map>

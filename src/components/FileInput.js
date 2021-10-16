@@ -13,12 +13,9 @@ P,UL997,12.68,26.3,3.4,41.3,0.0`;
 
 export const FileInput = (props) => {
   const [text, setText] = React.useState(defaultValue);
-  const [result, setResult] = React.useState("");
 
   const onClick = () => {
     const res = mapCsvToPositions(text);
-    console.log(res);
-    setResult(JSON.stringify(res, null, 2));
 
     // Return the result to parent
     if (props.onSubmit) {
@@ -52,7 +49,7 @@ export const FileInput = (props) => {
       </label>
       <textarea value={text} onChange={(e) => setText(e.target.value)} rows={20} />
       <Button onClick={onClick}>submit</Button>
-      <pre>{result}</pre>
+      {/* <pre>{result}</pre> */}
     </div>
   );
 };
