@@ -5,13 +5,10 @@ import { FileInput } from "./FileInput";
 import { MapView } from "./Map";
 
 function App() {
-  const [droneLocations, setDroneLocations] = React.useState([]);
-  const onSubmit = (res) => setDroneLocations(res);
-
   return (
     <div className={styles.appContainer}>
-      <FileInput onSubmit={onSubmit} />
-      <MapView droneLocations={droneLocations} />
+      <FileInput />
+      <MapView />
     </div>
   );
 }
