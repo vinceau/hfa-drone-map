@@ -1,6 +1,5 @@
-import React from "react";
-
 import Button from "@mui/material/Button";
+import React from "react";
 
 export const DeleteButton = ({ deleteWaypoints, setDeleteWaypoints }) => {
   return (
