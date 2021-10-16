@@ -2,3 +2,6 @@
   display: flex;
   flex-direction: column;
 }
+.uploadInput {
+  display: none;
+}

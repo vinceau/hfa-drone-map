@@ -1,9 +1,12 @@
+import "mapbox-gl/dist/mapbox-gl.css";
+
 import React from "react";
 import ReactMapboxGl from "react-mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { MapFeatures } from "./MapFeatures";
-import { MapDronePoints } from "./MapDronePoints";
 
+import { MapDronePoints } from "./MapDronePoints";
+import { MapFeatures } from "./MapFeatures";
+
+// eslint-disable-next-line new-cap
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
 });

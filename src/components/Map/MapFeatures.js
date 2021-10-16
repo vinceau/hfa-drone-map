@@ -5,10 +5,9 @@ import { MapContext } from "react-mapbox-gl";
 export const MapFeatures = (props) => {
   const map = React.useContext(MapContext);
 
+  const selectedIndices = useRef(null);
   const points = useRef(null);
   const lines = useRef(null);
-  const selectedIndex = useRef(null);
-  const selectMarker = useRef(null);
 
   const onChange = (data) => {
     const res = data.map(([long, lat]) => ({ long, lat }));
@@ -32,6 +31,8 @@ export const MapFeatures = (props) => {
   }
 
   function init() {
+    selectedIndices.current = {};
+
     lines.current = {
       type: "FeatureCollection",
       features: [
@@ -75,20 +76,9 @@ export const MapFeatures = (props) => {
     });
   }
 
-  function getIndexOfTag(tag) {
-    return points.current.features.findIndex((el) => el.properties.tag === tag);
-  }
-
   function insertPointAt(index, coordinates) {
     points.current.features.splice(index, 0, addPoint(coordinates));
     lines.current.features[0].geometry.coordinates.splice(index, 0, coordinates);
-    refreshMap();
-    onChange(lines.current.features[0].geometry.coordinates);
-  }
-
-  function addPointToEnd(coordinates) {
-    points.current.features.push(addPoint(coordinates));
-    lines.current.features[0].geometry.coordinates.push(coordinates);
     refreshMap();
     onChange(lines.current.features[0].geometry.coordinates);
   }
@@ -119,27 +109,93 @@ export const MapFeatures = (props) => {
     );
 
     if (selectedFeatures.length > 0) {
-      return {
-        coordinates: selectedFeatures[0].geometry.coordinates.slice(),
-        description: selectedFeatures[0].properties.description,
-        tag: selectedFeatures[0].properties.tag,
-      };
+      return getIndexOfTag(selectedFeatures[0].properties.tag);
     } else {
-      return {};
+      return null;
     }
   }
 
-  function setSelectedIndex(index) {
-    selectedIndex.current = index;
-    // console.log('hi')
-    // if (index === null) return
-    // const marker = new mapboxgl.Marker()
-    //   .setLngLat(points.current.features[index].geometry.coordinates)
-    //   .addTo(map);
+  function getIndexOfTag(tag) {
+    return points.current.features.findIndex((el) => el.properties.tag === tag);
   }
 
-  function getSelectedIndex() {
-    return selectedIndex.current;
+  function handleIndexSelect(index) {
+    if (selectedIndices.current.a && selectedIndices.current.a.index === index) {
+      removePointAt(index);
+      deselectAll();
+      return;
+    }
+
+    if (selectedIndices.current.b) {
+      selectedIndices.current.b.marker.remove();
+    }
+    if (selectedIndices.current.a) {
+      selectedIndices.current.b = selectedIndices.current.a;
+    }
+
+    const marker = new mapboxgl.Marker().setLngLat(points.current.features[index].geometry.coordinates).addTo(map);
+
+    selectedIndices.current.a = { index, marker };
+  }
+
+  function performAction(coordinates) {
+    const length = points.current.features.length;
+    if (length === 0) {
+      // place initial point
+      insertPointAt(0, coordinates);
+      handleIndexSelect(0);
+    } else {
+      if (Object.keys(selectedIndices.current).length === 2) {
+        attemptToPlaceMidpoint(coordinates);
+      } else if (Object.keys(selectedIndices.current).length === 1) {
+        attemptToExtendFromEndpoints(coordinates);
+      } else {
+        map.panTo(points.current.features[0].geometry.coordinates);
+      }
+    }
+  }
+
+  function attemptToPlaceMidpoint(coordinates) {
+    let indexA = selectedIndices.current.a.index;
+    let indexB = selectedIndices.current.b.index;
+
+    if (indexA > indexB) {
+      [indexA, indexB] = [indexB, indexA];
+    }
+
+    if (indexB - indexA === 1) {
+      insertPointAt(indexB, coordinates);
+      deselectAll();
+    }
+  }
+
+  function attemptToExtendFromEndpoints(coordinates) {
+    const length = points.current.features.length;
+    if (selectedIndices.current.a.index === points.current.features.length - 1) {
+      insertPointAt(length, coordinates);
+      deselectAll();
+      handleIndexSelect(length);
+    } else if (selectedIndices.current.a.index === 0) {
+      insertPointAt(0, coordinates);
+      deselectAll();
+      handleIndexSelect(0);
+    }
+  }
+
+  function deselectAll() {
+    if (selectedIndices.current.a) {
+      selectedIndices.current.a.marker.remove();
+    }
+    if (selectedIndices.current.b) {
+      selectedIndices.current.b.marker.remove();
+    }
+    selectedIndices.current = {};
+  }
+
+  function downHandler(event) {
+    if (event.keyCode === 27) {
+      deselectAll();
+    }
   }
 
   React.useEffect(() => {
@@ -150,40 +206,24 @@ export const MapFeatures = (props) => {
     init();
 
     map.on("click", (e) => {
-      const { coordinates, description, tag } = findPointFeature(e);
-
-      if (coordinates && description && tag) {
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-        new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map);
+      const index = findPointFeature(e);
+      if (index !== null) {
+        handleIndexSelect(index);
       } else {
-        const { lng, lat } = e.lngLat;
-
-        if (getSelectedIndex() !== null) {
-          insertPointAt(getSelectedIndex() + 1, [lng, lat]);
-        } else {
-          addPointToEnd([lng, lat]);
-        }
-        setSelectedIndex(null);
+        performAction([e.lngLat.lng, e.lngLat.lat]);
       }
     }); // click
 
-    map.on("contextmenu", (e) => {
-      const { tag } = findPointFeature(e);
+    // right click
+    map.on("contextmenu", () => {
+      deselectAll();
+    });
 
-      if (!tag) return;
-
-      const index = getIndexOfTag(tag);
-
-      if (getSelectedIndex() !== index) {
-        selectedIndex.current = index;
-      } else {
-        removePointAt(getSelectedIndex());
-        setSelectedIndex(null);
-      }
-    }); // contextmenu
+    window.addEventListener("keydown", downHandler);
+    // Remove event listeners on cleanup
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+    };
   }, [map]);
 
   return null;
