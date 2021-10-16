@@ -2,8 +2,8 @@ import React from "react";
 
 import styles from "./App.module.css";
 import { CsvDownloadButton } from "./components/CsvDownloadButton";
-import { FileInput } from "./FileInput";
-import { MapView } from "./Map/Map";
+import { FileInput } from "./components/FileInput";
+import { MapView } from "./components/Map/Map";
 
 function App() {
   const [droneLocations, setDroneLocations] = React.useState([]);
