@@ -1,4 +1,3 @@
-import { useSnackbar } from "notistack";
 import React from "react";
 
 import styles from "./App.module.css";
@@ -13,11 +12,6 @@ function App() {
   const [droneLocations, setDroneLocations] = React.useState([]);
   const [waypoints, setWaypoints] = React.useState([]);
   const [deleteSignal, sendDeleteSignal] = React.useState(false);
-  const { enqueueSnackbar } = useSnackbar();
-
-  const handleSnackbarClick = () => {
-    enqueueSnackbar("I am a message");
-  };
 
   return (
     <div className={styles.appContainer}>
@@ -34,7 +28,6 @@ function App() {
                   setWaypoints={setWaypoints}
                   exportMode={() => setPane(1)}
                 />
-                <button onClick={handleSnackbarClick}>show a notification</button>
                 <FileInput onSubmit={setDroneLocations} />
               </div>
             ),
