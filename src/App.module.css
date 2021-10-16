@@ -4,10 +4,3 @@
   display: grid;
   grid-template-columns: 30% 70%;
 }
-.leftPanelContents {
-  padding: 0 30px 0 30px;
-}
-.logo {
-  padding: 30px 0 30px;
-  height: 150px;
-}

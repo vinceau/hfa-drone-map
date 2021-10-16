@@ -1,5 +1,7 @@
 .sidebar {
   position: relative;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .sidebar::after {

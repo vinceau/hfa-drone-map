@@ -1,3 +1,4 @@
+import { useSnackbar } from "notistack";
 import React from "react";
 
 import styles from "./App.module.css";
@@ -5,9 +6,8 @@ import { CsvDownloader } from "./components/CsvDownloader";
 import { DeleteButton } from "./components/DeleteButton";
 import { FileInput } from "./components/FileInput";
 import { MapView } from "./components/Map/Map";
-import { Sidebar } from "./components/Sidebar";
 import { OfferMapDronePoint } from "./components/OfferMapDronePoint";
-import { useSnackbar } from "notistack";
+import { Sidebar } from "./components/Sidebar";
 
 function App() {
   const [pane, setPane] = React.useState(0);

@@ -227,7 +227,7 @@ export const MapFeatures = (props) => {
     map.setPitch(0);
   }
 
-  function rightClickHandler(e) {
+  function rightClickHandler() {
     map.setPitch(0);
   }
 
