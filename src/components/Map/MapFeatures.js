@@ -2,12 +2,19 @@ import React, { useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import { MapContext } from "react-mapbox-gl";
 
-export const MapFeatures = ({ onChange }) => {
+export const MapFeatures = (props) => {
   const map = React.useContext(MapContext);
 
   const selectedIndices = useRef(null);
   const points = useRef(null);
   const lines = useRef(null);
+
+  const onChange = (data) => {
+    const res = data.map(([long, lat]) => ({ long, lat }));
+    if (props.onChange) {
+      props.onChange(res);
+    }
+  };
 
   function addPoint(coordinates) {
     return {
@@ -185,6 +192,12 @@ export const MapFeatures = ({ onChange }) => {
     selectedIndices.current = {};
   }
 
+  function downHandler(event) {
+    if (event.keyCode === 27) {
+      deselectAll();
+    }
+  }
+
   React.useEffect(() => {
     if (!map) {
       return;
@@ -200,6 +213,17 @@ export const MapFeatures = ({ onChange }) => {
         performAction([e.lngLat.lng, e.lngLat.lat]);
       }
     }); // click
+
+    // right click
+    map.on("contextmenu", () => {
+      deselectAll();
+    });
+
+    window.addEventListener("keydown", downHandler);
+    // Remove event listeners on cleanup
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+    };
   }, [map]);
 
   return null;
