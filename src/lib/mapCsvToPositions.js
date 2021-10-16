@@ -1,4 +1,5 @@
-const TOTAL_VOLTAGE = 13.61;
+const MAX_VOLTAGE = 13.61;
+const MIN_VOLTAGE = 11.0;
 
 export const mapCsvToPositions = (text) => {
   const outputs = {};
@@ -17,8 +18,9 @@ export const mapCsvToPositions = (text) => {
     }
 
     if (code === "P") {
+      var curVoltage = chunks[2] - MIN_VOLTAGE;
       const batteryLvl =
-        Math.round((chunks[2] / TOTAL_VOLTAGE) * 100, 2) + "% (" + chunks[2] + "/" + TOTAL_VOLTAGE + "V)";
+        Math.round((curVoltage / (MAX_VOLTAGE - MIN_VOLTAGE)) * 100, 2) + "% (" + chunks[2] + "/" + MAX_VOLTAGE + "V)";
       outputs[id].batteryLvl = batteryLvl;
     } else if (code === "M") {
       const lat = mapStringToFloat(chunks[2]);
