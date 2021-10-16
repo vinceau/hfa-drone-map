@@ -2,14 +2,12 @@ import React, { useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import { MapContext } from "react-mapbox-gl";
 
-
-export const MapFeatures = ({onChange}) => {
+export const MapFeatures = ({ onChange }) => {
   const map = React.useContext(MapContext);
-  
-  const selectedIndices = useRef(null)
-  const points = useRef(null)
-  const lines = useRef(null)
 
+  const selectedIndices = useRef(null);
+  const points = useRef(null);
+  const lines = useRef(null);
 
   function addPoint(coordinates) {
     return {
@@ -19,15 +17,14 @@ export const MapFeatures = ({onChange}) => {
         coordinates,
       },
       properties: {
-        description: '<p>' + JSON.stringify(coordinates) + '</p>',
-        tag: JSON.stringify(coordinates)
-    },
-    }
+        description: "<p>" + JSON.stringify(coordinates) + "</p>",
+        tag: JSON.stringify(coordinates),
+      },
+    };
   }
 
   function init() {
-
-    selectedIndices.current = {}
+    selectedIndices.current = {};
 
     lines.current = {
       type: "FeatureCollection",
@@ -40,170 +37,169 @@ export const MapFeatures = ({onChange}) => {
           },
         },
       ],
-    }
+    };
 
     points.current = {
       type: "FeatureCollection",
       features: [],
-    }
+    };
 
-    map.addSource('lines', {type: 'geojson', data: lines.current})
-    map.addSource('points', {type: 'geojson', data: points.current})
-
+    map.addSource("lines", { type: "geojson", data: lines.current });
+    map.addSource("points", { type: "geojson", data: points.current });
 
     map.addLayer({
-      id: 'lines',
+      id: "lines",
       type: "line",
-      source: 'lines',
+      source: "lines",
       paint: {
         "line-color": "yellow",
         "line-opacity": 0.75,
         "line-width": 5,
       },
-    })
+    });
 
     map.addLayer({
-      id: 'points',
+      id: "points",
       type: "circle",
-      source: 'points',
+      source: "points",
       paint: {
         "circle-radius": 6,
         "circle-color": "#B42222",
       },
-    })
+    });
   }
 
   function insertPointAt(index, coordinates) {
-    points.current.features.splice(index, 0, addPoint(coordinates))
-    lines.current.features[0].geometry.coordinates.splice(index, 0, coordinates)
-    refreshMap()
-    onChange(lines.current.features[0].geometry.coordinates)
+    points.current.features.splice(index, 0, addPoint(coordinates));
+    lines.current.features[0].geometry.coordinates.splice(index, 0, coordinates);
+    refreshMap();
+    onChange(lines.current.features[0].geometry.coordinates);
   }
 
   function removePointAt(index) {
-    points.current.features.splice(index, 1)
-    lines.current.features[0].geometry.coordinates.splice(index, 1)
-    refreshMap()
-    onChange(lines.current.features[0].geometry.coordinates)
+    points.current.features.splice(index, 1);
+    lines.current.features[0].geometry.coordinates.splice(index, 1);
+    refreshMap();
+    onChange(lines.current.features[0].geometry.coordinates);
   }
-  
+
   function refreshMap() {
-    map.getSource("lines").setData(lines.current)
-    map.getSource("points").setData(points.current)
+    map.getSource("lines").setData(lines.current);
+    map.getSource("points").setData(points.current);
   }
 
   function findPointFeature(e) {
-    const [x, y] = [e.point.x, e.point.y]
+    const [x, y] = [e.point.x, e.point.y];
 
-    const selectedFeatures = map.queryRenderedFeatures([[x - 5, y - 5], [x + 5, y + 5]], {
-      layers: ['points'],
-    })
-    
+    const selectedFeatures = map.queryRenderedFeatures(
+      [
+        [x - 5, y - 5],
+        [x + 5, y + 5],
+      ],
+      {
+        layers: ["points"],
+      },
+    );
+
     if (selectedFeatures.length > 0) {
-      return getIndexOfTag(selectedFeatures[0].properties.tag)
+      return getIndexOfTag(selectedFeatures[0].properties.tag);
     } else {
-      return null
+      return null;
     }
   }
 
   function getIndexOfTag(tag) {
-    return points.current.features.findIndex((el) => el.properties.tag === tag)
+    return points.current.features.findIndex((el) => el.properties.tag === tag);
   }
 
   function handleIndexSelect(index) {
-
     if (selectedIndices.current.a && selectedIndices.current.a.index === index) {
-      removePointAt(index)
-      deselectAll()
-      return
+      removePointAt(index);
+      deselectAll();
+      return;
     }
 
     if (selectedIndices.current.b) {
-      selectedIndices.current.b.marker.remove()
+      selectedIndices.current.b.marker.remove();
     }
     if (selectedIndices.current.a) {
-      selectedIndices.current.b = selectedIndices.current.a
+      selectedIndices.current.b = selectedIndices.current.a;
     }
 
-    const marker = new mapboxgl.Marker()
-      .setLngLat(points.current.features[index].geometry.coordinates)
-      .addTo(map);
-    
-    selectedIndices.current.a = {index, marker}
+    const marker = new mapboxgl.Marker().setLngLat(points.current.features[index].geometry.coordinates).addTo(map);
+
+    selectedIndices.current.a = { index, marker };
   }
 
   function performAction(coordinates) {
-    const length = points.current.features.length
-    if (length === 0) { // place initial point
-      insertPointAt(0, coordinates)
-      handleIndexSelect(0)
+    const length = points.current.features.length;
+    if (length === 0) {
+      // place initial point
+      insertPointAt(0, coordinates);
+      handleIndexSelect(0);
     } else {
       if (Object.keys(selectedIndices.current).length === 2) {
-        attemptToPlaceMidpoint(coordinates)
+        attemptToPlaceMidpoint(coordinates);
       } else if (Object.keys(selectedIndices.current).length === 1) {
-        attemptToExtendFromEndpoints(coordinates)
+        attemptToExtendFromEndpoints(coordinates);
       } else {
-        map.panTo(points.current.features[0].geometry.coordinates)
+        map.panTo(points.current.features[0].geometry.coordinates);
       }
     }
-
   }
 
   function attemptToPlaceMidpoint(coordinates) {
-    let indexA = selectedIndices.current.a.index
-    let indexB = selectedIndices.current.b.index
-    
+    let indexA = selectedIndices.current.a.index;
+    let indexB = selectedIndices.current.b.index;
+
     if (indexA > indexB) {
-      [indexA, indexB] = [indexB, indexA]
+      [indexA, indexB] = [indexB, indexA];
     }
 
     if (indexB - indexA === 1) {
-      insertPointAt(indexB, coordinates)
-      deselectAll()
+      insertPointAt(indexB, coordinates);
+      deselectAll();
     }
   }
 
   function attemptToExtendFromEndpoints(coordinates) {
-    const length = points.current.features.length
+    const length = points.current.features.length;
     if (selectedIndices.current.a.index === points.current.features.length - 1) {
-      insertPointAt(length, coordinates)
-      deselectAll()
-      handleIndexSelect(length)
+      insertPointAt(length, coordinates);
+      deselectAll();
+      handleIndexSelect(length);
     } else if (selectedIndices.current.a.index === 0) {
-      insertPointAt(0, coordinates)
-      deselectAll()
-      handleIndexSelect(0)
+      insertPointAt(0, coordinates);
+      deselectAll();
+      handleIndexSelect(0);
     }
   }
 
   function deselectAll() {
     if (selectedIndices.current.a) {
-      selectedIndices.current.a.marker.remove()
+      selectedIndices.current.a.marker.remove();
     }
     if (selectedIndices.current.b) {
-      selectedIndices.current.b.marker.remove()
+      selectedIndices.current.b.marker.remove();
     }
-    selectedIndices.current = {}
+    selectedIndices.current = {};
   }
-
-
 
   React.useEffect(() => {
     if (!map) {
       return;
     }
 
-    init()
+    init();
 
     map.on("click", (e) => {
-      const index = findPointFeature(e)
+      const index = findPointFeature(e);
       if (index !== null) {
-        handleIndexSelect(index)
+        handleIndexSelect(index);
       } else {
-        performAction([e.lngLat.lng, e.lngLat.lat])
+        performAction([e.lngLat.lng, e.lngLat.lat]);
       }
-    }) // click
-
+    }); // click
   }, [map]);
 
   return null;
