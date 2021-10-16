@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
+import styles from "./Sidebar.module.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,16 +52,9 @@ export const Sidebar = ({ panels, currentIndex, setCurrentIndex }) => {
     setCurrentIndex(index);
   };
   return (
-    <Box sx={{ bgcolor: "background.paper" }}>
+    <Box sx={{ bgcolor: "background.paper" }} className={styles.sidebar}>
       <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
+        <Tabs value={value} onChange={handleChange} indicatorColor="secondary" textColor="inherit" variant="fullWidth">
           {panels.map((panel, i) => {
             return <Tab key={panel.label} label={panel.label} {...a11yProps(i)} />;
           })}

@@ -1,0 +1,15 @@
+.sidebar {
+  position: relative;
+}
+.sidebar::after {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  bottom: 40px;
+  left: 40px;
+  background-image: url("../styles/images/hfa.png");
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  opacity: 0.4;
+}
