@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./App.module.css";
 import { FileInput } from "./FileInput";
-import { MapView } from "./Map";
+import { MapView } from "./Map/Map";
 
 function App() {
   const [droneLocations, setDroneLocations] = React.useState([]);
