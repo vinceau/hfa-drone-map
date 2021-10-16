@@ -4,6 +4,7 @@ import { MapContext } from "react-mapbox-gl";
 
 export const MapFeatures = (props) => {
   const map = React.useContext(MapContext);
+  const deleteWaypoints = props.deleteWaypoints;
 
   const selectedIndices = useRef(null);
   const points = useRef(null);
@@ -74,6 +75,15 @@ export const MapFeatures = (props) => {
         "circle-color": "#B42222",
       },
     });
+  }
+
+  function destroy() {
+    map.removeLayer("lines");
+    map.removeSource("lines");
+    map.removeLayer("points");
+    map.removeSource("points");
+    deselectAll();
+    onChange([]);
   }
 
   function insertPointAt(index, coordinates) {
@@ -198,33 +208,37 @@ export const MapFeatures = (props) => {
     }
   }
 
+  function leftClickHandler(e) {
+    const index = findPointFeature(e);
+    if (index !== null) {
+      handleIndexSelect(index);
+    } else {
+      performAction([e.lngLat.lng, e.lngLat.lat]);
+    }
+  }
+
+  function rightClickHandler(e) {
+    map.setBearing(0);
+    map.setPitch(0);
+  }
+
   React.useEffect(() => {
     if (!map) {
       return;
     }
 
     init();
-
-    map.on("click", (e) => {
-      const index = findPointFeature(e);
-      if (index !== null) {
-        handleIndexSelect(index);
-      } else {
-        performAction([e.lngLat.lng, e.lngLat.lat]);
-      }
-    }); // click
-
-    // right click
-    map.on("contextmenu", () => {
-      deselectAll();
-    });
-
+    map.on("click", leftClickHandler);
+    map.on("contextmenu", rightClickHandler);
     window.addEventListener("keydown", downHandler);
-    // Remove event listeners on cleanup
+
     return () => {
+      map.off("click", leftClickHandler);
+      map.off("contextmenu", rightClickHandler);
       window.removeEventListener("keydown", downHandler);
+      destroy();
     };
-  }, [map]);
+  }, [map, deleteWaypoints]);
 
   return null;
 };
