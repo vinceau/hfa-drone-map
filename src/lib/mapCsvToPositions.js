@@ -29,6 +29,8 @@ export const mapCsvToPositions = (text) => {
       const avgBearing = chunks[5];
       const avgCurrent = chunks[6];
 
+      console.log(lat, long, avgSpeed, avgBearing, avgCurrent);
+
       outputs[id].lat = lat;
       outputs[id].long = long;
       outputs[id].avgSpeed = avgSpeed;
