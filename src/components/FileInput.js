@@ -7,6 +7,7 @@ import React from "react";
 import { mapCsvToPositions } from "../lib/mapCsvToPositions";
 import { readFileAsText } from "../lib/readFile";
 import styles from "./FileInput.module.css";
+import { useSnackbar } from "notistack";
 
 const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4
 P,UL997,12.68,26.3,3.4,41.3,0.0`;
@@ -14,6 +15,7 @@ P,UL997,12.68,26.3,3.4,41.3,0.0`;
 export const FileInput = (props) => {
   const [text, setText] = React.useState(defaultValue);
   const [result, setResult] = React.useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const inputFile = React.useRef(null);
 
@@ -24,8 +26,11 @@ export const FileInput = (props) => {
   };
 
   const onClick = () => {
-    const res = mapCsvToPositions(text);
+    const { value: res, errors } = mapCsvToPositions(text);
     console.log(res);
+    if (errors > 0) {
+      enqueueSnackbar("The warning! id");
+    }
     setResult(JSON.stringify(res, null, 2));
 
     // Return the result to parent

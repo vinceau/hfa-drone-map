@@ -35,7 +35,7 @@ export const mapCsvToPositions = (text) => {
     }
   });
 
-  return Object.values(outputs);
+  return { value: Object.values(outputs), errors: 1 };
 };
 
 const mapStringToFloat = (str) => {
