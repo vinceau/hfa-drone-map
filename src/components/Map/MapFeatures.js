@@ -210,10 +210,9 @@ export const MapFeatures = (props) => {
     selectedIndices.current = {};
   }
 
-  function downHandler(event) {
+  function keyDownHandler(event) {
     if (event.keyCode === 27) {
       deselectAll();
-      map.setPitch(0);
     }
   }
 
@@ -224,11 +223,6 @@ export const MapFeatures = (props) => {
     } else {
       performAction([e.lngLat.lng, e.lngLat.lat]);
     }
-    map.setPitch(0);
-  }
-
-  function rightClickHandler(e) {
-    map.setPitch(0);
   }
 
   React.useEffect(() => {
@@ -238,13 +232,11 @@ export const MapFeatures = (props) => {
 
     init();
     map.on("click", leftClickHandler);
-    map.on("contextmenu", rightClickHandler);
-    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keydown", keyDownHandler);
 
     return () => {
       map.off("click", leftClickHandler);
-      map.off("contextmenu", rightClickHandler);
-      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keydown", keyDownHandler);
       destroy();
     };
   }, [map, disabled, deleteSignal]);

@@ -3,6 +3,8 @@ import ReactMapboxGl, { RotationControl } from "react-mapbox-gl";
 
 import { MapDronePoints } from "./MapDronePoints";
 import { MapFeatures } from "./MapFeatures";
+import { PerspectiveControl } from "./PerspectiveControl";
+
 // eslint-disable-next-line new-cap
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
@@ -18,6 +20,8 @@ export const MapView = ({ droneLocations, onChange, waypoints, deleteSignal, dis
           width: "100%",
         }}
       >
+        <RotationControl />
+        <PerspectiveControl />
         <MapDronePoints droneLocations={droneLocations} />
         <MapFeatures
           onChange={onChange}
