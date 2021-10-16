@@ -12,7 +12,7 @@ export const ClearWaypointsButton = ({ deleteSignal, sendDeleteSignal, setWaypoi
           sendDeleteSignal(!deleteSignal);
         }
       }}
-      variant="contained"
+      variant="outlined"
       color="error"
       endIcon={<DeleteIcon />}
     >
