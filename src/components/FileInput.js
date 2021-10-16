@@ -60,7 +60,12 @@ export const FileInput = (props) => {
           Submit
         </Button>
       </div>
-      <TextareaAutosize onChange={(e) => setText(e.target.value)} value={text} />
+      <TextareaAutosize
+        className={styles.textarea}
+        minRows={20}
+        onChange={(e) => setText(e.target.value)}
+        value={text}
+      />
       <pre>{result}</pre>
     </div>
   );
