@@ -2,17 +2,23 @@ import React from "react";
 
 import styles from "./App.module.css";
 import { CsvDownloader } from "./components/CsvDownloader";
+import { DeleteButton } from "./components/DeleteButton";
 import { FileInput } from "./components/FileInput";
 import { MapView } from "./components/Map/Map";
 import { Sidebar } from "./components/Sidebar";
-import { DeleteButton } from "./components/DeleteButton";
 import { OfferMapDronePoint } from "./components/OfferMapDronePoint";
+import { useSnackbar } from "notistack";
 
 function App() {
   const [pane, setPane] = React.useState(0);
   const [droneLocations, setDroneLocations] = React.useState([]);
   const [waypoints, setWaypoints] = React.useState([]);
   const [deleteSignal, sendDeleteSignal] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleSnackbarClick = () => {
+    enqueueSnackbar("I am a message");
+  };
 
   return (
     <div className={styles.appContainer}>
@@ -29,6 +35,7 @@ function App() {
                   setWaypoints={setWaypoints}
                   exportMode={() => setPane(1)}
                 />
+                <button onClick={handleSnackbarClick}>show a notification</button>
                 <FileInput onSubmit={setDroneLocations} />
               </div>
             ),

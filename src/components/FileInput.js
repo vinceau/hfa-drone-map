@@ -6,6 +6,7 @@ import React from "react";
 
 import { mapCsvToPositions } from "../lib/mapCsvToPositions";
 import { readFileAsText } from "../lib/readFile";
+import { DroneList } from "./DroneList";
 import styles from "./FileInput.module.css";
 
 const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4
@@ -26,7 +27,7 @@ export const FileInput = (props) => {
   const onClick = () => {
     const res = mapCsvToPositions(text);
     console.log(res);
-    setResult(JSON.stringify(res, null, 2));
+    setResult(res);
 
     // Return the result to parent
     if (props.onSubmit) {
@@ -60,8 +61,13 @@ export const FileInput = (props) => {
           Submit
         </Button>
       </div>
-      <TextareaAutosize onChange={(e) => setText(e.target.value)}>{text}</TextareaAutosize>
-      <pre>{result}</pre>
+      <TextareaAutosize
+        className={styles.textarea}
+        minRows={20}
+        onChange={(e) => setText(e.target.value)}
+        value={text}
+      />
+      <DroneList drones={result} />
     </div>
   );
 };
