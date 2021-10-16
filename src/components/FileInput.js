@@ -1,8 +1,12 @@
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import Button from "@mui/material/Button";
+import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
 import React from "react";
 
-import styles from "./FileInput.module.css";
 import { mapCsvToPositions } from "../lib/mapCsvToPositions";
 import { readFileAsText } from "../lib/readFile";
+import styles from "./FileInput.module.css";
 
 const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4
 M,UL997,37.821608S,145.313996E,470668.68,3,3.4
@@ -32,10 +36,23 @@ export const FileInput = (props) => {
 
   return (
     <div className={styles.fileInputContainer}>
-      <label htmlFor="fileInput">Select a CSV file:</label>
-      <input type="file" id="fileInput" name="fileInput" multiple={true} onChange={onFileChange} />
+      <input
+        type="file"
+        id="fileInput"
+        name="fileInput"
+        multiple={true}
+        onChange={onFileChange}
+        className={styles.uploadInput}
+      />
+      <label htmlFor="fileInput">
+        <Tooltip title={"Upload a CSV File"}>
+          <Fab component={"span"}>
+            <UploadFileIcon />
+          </Fab>
+        </Tooltip>
+      </label>
       <textarea value={text} onChange={(e) => setText(e.target.value)} rows={20} />
-      <button onClick={onClick}>submit</button>
+      <Button onClick={onClick}>submit</Button>
       <pre>{result}</pre>
     </div>
   );
