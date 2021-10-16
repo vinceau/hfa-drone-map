@@ -1,7 +1,8 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import React from "react";
 
-export const DeleteButton = ({ deleteSignal, sendDeleteSignal, setWaypoints }) => {
+export const ClearWaypointsButton = ({ deleteSignal, sendDeleteSignal, setWaypoints }) => {
   return (
     <Button
       onClick={() => {
@@ -11,10 +12,11 @@ export const DeleteButton = ({ deleteSignal, sendDeleteSignal, setWaypoints }) =
           sendDeleteSignal(!deleteSignal);
         }
       }}
-      variant="contained"
+      variant="outlined"
       color="error"
+      endIcon={<DeleteIcon />}
     >
-      Delete
+      Clear waypoints
     </Button>
   );
 };
