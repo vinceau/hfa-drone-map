@@ -1,3 +1,5 @@
+const isNegativeCoordinate = /[SW]$/
+
 export const mapCsvToPositions = (text) => {
   const results = text.split("\n").map((line) => {
     console.log(line);
@@ -19,5 +21,9 @@ export const mapCsvToPositions = (text) => {
 };
 
 const mapStringToFloat = (str) => {
-  return parseFloat(str.substring(0, str.length - 1));
+  let sign = 1.
+  if (isNegativeCoordinate.test(str)) {
+    sign = -1.
+  }
+  return sign * parseFloat(str.substring(0, str.length - 1));
 };
