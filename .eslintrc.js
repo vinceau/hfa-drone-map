@@ -27,6 +27,7 @@ module.exports = {
     "react/prop-types": "off",
     "react/display-name": "off",
     "react/no-unescaped-entities": "warn",
+    "no-unused-vars": "warn",
     "import/no-default-export": "error",
     "import/no-named-as-default-member": "off",
     "simple-import-sort/imports": "warn",
