@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
 import mapboxgl from "mapbox-gl";
+import React, { useRef } from "react";
 import { MapContext } from "react-mapbox-gl";
 
 export const MapFeatures = (props) => {
@@ -8,7 +8,6 @@ export const MapFeatures = (props) => {
   const points = useRef(null);
   const lines = useRef(null);
   const selectedIndex = useRef(null);
-  const selectMarker = useRef(null);
 
   const onChange = (data) => {
     const res = data.map(([long, lat]) => ({ long, lat }));
@@ -173,7 +172,9 @@ export const MapFeatures = (props) => {
     map.on("contextmenu", (e) => {
       const { tag } = findPointFeature(e);
 
-      if (!tag) return;
+      if (!tag) {
+        return;
+      }
 
       const index = getIndexOfTag(tag);
 
