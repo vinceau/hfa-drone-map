@@ -3,11 +3,11 @@ import React from "react";
 import { CsvDownloader } from "./CsvDownloader";
 import { DeleteButton } from "./DeleteButton";
 
-export const ExportPanel = ({ waypoints, deleteWaypoints, setDeleteWaypoints }) => {
+export const ExportPanel = ({ waypoints, deleteSignal, sendDeleteSignal, setWaypoints }) => {
   return (
     <div>
       <CsvDownloader waypoints={waypoints} />
-      <DeleteButton deleteWaypoints={deleteWaypoints} setDeleteWaypoints={setDeleteWaypoints} />
+      <DeleteButton deleteSignal={deleteSignal} sendDeleteSignal={sendDeleteSignal} setWaypoints={setWaypoints} />
       <div>
         {waypoints.length === 0 ? (
           <span>No waypoints selected</span>
