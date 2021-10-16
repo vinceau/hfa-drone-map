@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapFeatures } from "./MapFeatures";
+import { MapDronePoints } from "./MapDronePoints";
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
@@ -25,11 +26,7 @@ export const MapView = ({ droneLocations }) => {
           width: "100%",
         }}
       >
-        <Layer type="circle" id="position-marker" paint={POSITION_CIRCLE_PAINT}>
-          {droneLocations.map((loc, index) => (
-            <Feature key={index} coordinates={[loc.lat, loc.long]} />
-          ))}
-        </Layer>
+        <MapDronePoints droneLocations={droneLocations} />
 
         <MapFeatures />
       </Map>
