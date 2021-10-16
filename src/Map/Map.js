@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
+import React from "react";
+import ReactMapboxGl from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapFeatures } from "./MapFeatures";
 import { MapDronePoints } from "./MapDronePoints";
@@ -7,14 +7,6 @@ import { MapDronePoints } from "./MapDronePoints";
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
 });
-
-const POSITION_CIRCLE_PAINT = {
-  "circle-stroke-width": 4,
-  "circle-radius": 10,
-  "circle-blur": 0.15,
-  "circle-color": "#3770C6",
-  "circle-stroke-color": "white",
-};
 
 export const MapView = ({ droneLocations }) => {
   return (
