@@ -5,3 +5,11 @@
   display: flex;
   justify-content: space-between;
 }
+
+.boatIcon {
+  margin-right: 10px;
+}
+
+.locationMissing {
+  color: red;
+}

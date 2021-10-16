@@ -1,3 +1,4 @@
+import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { Card, CardContent } from "@mui/material";
 import React from "react";
@@ -8,14 +9,16 @@ import styles from "./Dronecard.module.css";
 
 export const DroneCard = ({ drone }) => {
   const batLvl = getBatteryLevelFromVoltage(drone.batteryVoltage);
+  const locationMissing = !(drone.long && drone.lat);
   return (
     <Card variant={"outlined"}>
       <CardContent>
         <div className={styles.droneId}>
-          <div>
+          <div className={locationMissing ? styles.locationMissing : ""}>
+            <DirectionsBoatIcon className={styles.boatIcon} />
             {drone.id} <BatteryLevel pc={batLvl} />
           </div>
-          <div>
+          <div hidden={locationMissing}>
             <LocationSearchingIcon onClick={() => console.log([drone.long, drone.lat])} />
           </div>
         </div>
