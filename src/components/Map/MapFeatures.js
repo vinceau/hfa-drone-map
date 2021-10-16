@@ -5,6 +5,7 @@ import { MapContext } from "react-mapbox-gl";
 export const MapFeatures = (props) => {
   const map = React.useContext(MapContext);
   const deleteWaypoints = props.deleteWaypoints;
+  const disabled = props.disabled;
 
   const selectedIndices = useRef(null);
   const points = useRef(null);
@@ -223,7 +224,7 @@ export const MapFeatures = (props) => {
   }
 
   React.useEffect(() => {
-    if (!map) {
+    if (!map || disabled) {
       return;
     }
 
@@ -238,7 +239,7 @@ export const MapFeatures = (props) => {
       window.removeEventListener("keydown", downHandler);
       destroy();
     };
-  }, [map, deleteWaypoints]);
+  }, [map, deleteWaypoints, disabled]);
 
   return null;
 };

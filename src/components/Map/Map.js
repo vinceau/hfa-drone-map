@@ -9,7 +9,7 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
 });
 
-export const MapView = ({ droneLocations, onChange, deleteWaypoints }) => {
+export const MapView = ({ droneLocations, onChange, deleteWaypoints, disableWaypointEditing }) => {
   return (
     <div>
       <Map
@@ -20,8 +20,7 @@ export const MapView = ({ droneLocations, onChange, deleteWaypoints }) => {
         }}
       >
         <MapDronePoints droneLocations={droneLocations} />
-
-        <MapFeatures onChange={onChange} deleteWaypoints={deleteWaypoints} />
+        <MapFeatures onChange={onChange} deleteWaypoints={deleteWaypoints} disabled={disableWaypointEditing} />
       </Map>
     </div>
   );
