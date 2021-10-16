@@ -6,6 +6,7 @@ import React from "react";
 
 import { mapCsvToPositions } from "../lib/mapCsvToPositions";
 import { readFileAsText } from "../lib/readFile";
+import { DroneList } from "./DroneList";
 import styles from "./FileInput.module.css";
 import { useSnackbar } from "notistack";
 
@@ -71,7 +72,7 @@ export const FileInput = (props) => {
         onChange={(e) => setText(e.target.value)}
         value={text}
       />
-      <pre>{result}</pre>
+      <DroneList drones={result} />
     </div>
   );
 };

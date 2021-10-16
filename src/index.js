@@ -2,8 +2,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "./index.css";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import React from "react";
 import { SnackbarProvider } from "notistack";
+import React from "react";
 import ReactDOM from "react-dom";
 
 import { App } from "./App";
