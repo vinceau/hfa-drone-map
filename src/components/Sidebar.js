@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
+
 import styles from "./Sidebar.module.css";
 
 function TabPanel(props) {
