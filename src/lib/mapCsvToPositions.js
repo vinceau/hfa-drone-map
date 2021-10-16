@@ -1,3 +1,4 @@
+const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "avgCurrent", "batteryVoltage"];
 export const mapCsvToPositions = (text) => {
   const outputs = {};
   text.split("\n").forEach((line) => {
