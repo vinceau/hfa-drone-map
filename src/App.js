@@ -6,12 +6,21 @@ import { MapView } from "./Map/Map";
 
 function App() {
   const [droneLocations, setDroneLocations] = React.useState([]);
+  const [waypoints, setWaypoints] = React.useState([]);
   const onSubmit = (res) => setDroneLocations(res);
+  const onChange = (res) => {
+    console.log(waypoints)
+    setWaypoints(res)
+    console.log(res, waypoints)
+    }  ;
 
   return (
     <div className={styles.appContainer}>
-      <FileInput onSubmit={onSubmit} />
-      <MapView droneLocations={droneLocations} />
+      <div>
+        <pre> {JSON.stringify(waypoints, null, 2)} </pre>
+        <FileInput onSubmit={onSubmit} />
+      </div>
+      <MapView droneLocations={droneLocations} onChange={onChange} />
     </div>
   );
 }

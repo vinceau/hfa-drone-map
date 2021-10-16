@@ -15,7 +15,7 @@ const POSITION_CIRCLE_PAINT = {
   "circle-stroke-color": "white",
 };
 
-export const MapView = ({ droneLocations }) => {
+export const MapView = ({ droneLocations, onChange }) => {
   return (
     <div>
       <Map
@@ -31,7 +31,7 @@ export const MapView = ({ droneLocations }) => {
           ))}
         </Layer>
 
-        <MapFeatures />
+        <MapFeatures onChange={onChange} />
       </Map>
     </div>
   );
