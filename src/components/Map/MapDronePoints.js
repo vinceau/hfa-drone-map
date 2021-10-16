@@ -72,7 +72,7 @@ export const MapDronePoints = (props) => {
   // Drawing the layers contain the location of each drone.
   return (<Layer type="circle" id="position-marker" paint={POSITION_CIRCLE_PAINT}>
     {props.droneLocations.map((loc, index) => (
-      <Feature key={index} coordinates={[loc.long, loc.lat]} properties={{ "DroneID": loc.id, "longitude": loc.long, "latitude": loc.lat }} />
+      <Feature key={index} coordinates={[loc.long, loc.lat]} properties={{ "DroneID": loc.id, "Longitude": loc.long, "Latitude": loc.lat, "Battery Level": loc.batteryLvl, "Average Speed": loc.avgSpeed, "Average Bearing": loc.avgBearing, "Average Current": loc.avgCurrent }} />
     ))}
   </Layer>);
 };
