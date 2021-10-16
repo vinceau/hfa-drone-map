@@ -1,3 +1,5 @@
+const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "avgCurrent", "batteryVoltage"];
+
 export const mapCsvToPositions = (text) => {
   const outputs = {};
   const listErrors = [];
