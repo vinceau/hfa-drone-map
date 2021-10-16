@@ -12,8 +12,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint \"src/**/*.js\"",
-    "lint:fix": "npm run lint --fix",
-    "prepare": "husky install"
+    "lint:fix": "npm run lint --fix"
   },
   "browserslist": {
     "production": [
