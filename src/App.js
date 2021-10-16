@@ -9,9 +9,7 @@ function App() {
   const [waypoints, setWaypoints] = React.useState('');
   const onSubmit = (res) => setDroneLocations(res);
   const onChange = React.useCallback((res) => {
-    console.log(waypoints)
     setWaypoints(JSON.stringify(res))
-    console.log(res, waypoints)
   },[waypoints])  
 
   return (
