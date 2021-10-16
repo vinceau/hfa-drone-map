@@ -6,8 +6,10 @@ export const OfferMapDronePoint = ({ droneLocations, setWaypoints, exportMode })
   return (
     <Button
       onClick={() => {
-        setWaypoints([droneLocations[0]]);
-        exportMode();
+        if (droneLocations.length > 0) {
+          setWaypoints([droneLocations[0]]);
+          exportMode();
+        }
       }}
       variant="contained"
       color="primary"
