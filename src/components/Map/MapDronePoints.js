@@ -2,6 +2,8 @@ import mapboxgl from "mapbox-gl";
 import React from "react";
 import { Feature, Layer, MapContext } from "react-mapbox-gl";
 
+import { getBatteryLevelFromVoltage } from "../../lib/batteryPercentageFromVoltage";
+
 const POSITION_CIRCLE_PAINT = {
   "circle-stroke-width": 2,
   "circle-radius": 8,
@@ -75,8 +77,8 @@ export const MapDronePoints = (props) => {
             DroneID: loc.id,
             Longitude: loc.long,
             Latitude: loc.lat,
-            "Battery Level": loc.batteryLvl,
-            "Average Speed": loc.avgSpeed,
+            "Battery Level": getBatteryLevelFromVoltage(loc.batteryVoltage),
+            "Average Speed": loc.avgSpeed + " NM/h",
             "Average Bearing": loc.avgBearing,
             "Average Current": loc.avgCurrent,
           }}

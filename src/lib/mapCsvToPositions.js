@@ -1,5 +1,3 @@
-const TOTAL_VOLTAGE = 13.61;
-
 export const mapCsvToPositions = (text) => {
   const outputs = {};
   text.split("\n").forEach((line) => {
@@ -17,13 +15,11 @@ export const mapCsvToPositions = (text) => {
     }
 
     if (code === "P") {
-      const batteryLvl =
-        Math.round((chunks[2] / TOTAL_VOLTAGE) * 100, 2) + "% (" + chunks[2] + "/" + TOTAL_VOLTAGE + "V)";
-      outputs[id].batteryLvl = batteryLvl;
+      outputs[id].batteryVoltage = chunks[2];
     } else if (code === "M") {
       const lat = mapStringToFloat(chunks[2]);
       const long = mapStringToFloat(chunks[3]);
-      const avgSpeed = chunks[4] + " NM/H";
+      const avgSpeed = chunks[4];
       const avgBearing = chunks[5];
       const avgCurrent = chunks[6];
 
