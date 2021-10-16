@@ -17,6 +17,7 @@ export const MapDronePoints = (props) => {
       return;
     }
 
+    // popup creation for each drone
     const popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false
@@ -67,6 +68,8 @@ export const MapDronePoints = (props) => {
     })
 
   }, [map]);
+
+  // Drawing the layers contain the location of each drone.
   return (<Layer type="circle" id="position-marker" paint={POSITION_CIRCLE_PAINT}>
     {props.droneLocations.map((loc, index) => (
       <Feature key={index} coordinates={[loc.long, loc.lat]} properties={{ "DroneID": loc.id, "longitude": loc.long, "latitude": loc.lat }} />
