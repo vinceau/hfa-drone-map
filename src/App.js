@@ -1,7 +1,8 @@
 import React from "react";
-import Map from "./Map";
+
 import styles from "./App.module.css";
 import { FileInput } from "./FileInput";
+import { MapView } from "./Map";
 
 function App() {
   const [droneLocations, setDroneLocations] = React.useState([]);
@@ -10,9 +11,9 @@ function App() {
   return (
     <div className={styles.appContainer}>
       <FileInput onSubmit={onSubmit} />
-      <Map droneLocations={droneLocations} />
+      <MapView droneLocations={droneLocations} />
     </div>
   );
 }
 
-export default App;
+export { App };

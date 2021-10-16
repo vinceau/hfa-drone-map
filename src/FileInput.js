@@ -1,6 +1,7 @@
 import React from "react";
-import { mapCsvToPositions } from "./lib/mapCsvToPositions";
+
 import styles from "./FileInput.module.css";
+import { mapCsvToPositions } from "./lib/mapCsvToPositions";
 import { readFileAsText } from "./lib/readFile";
 
 const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4

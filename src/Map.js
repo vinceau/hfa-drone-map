@@ -1,7 +1,9 @@
-import React from "react";
-import ReactMapboxGl, { MapContext } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
+import React from "react";
+import ReactMapboxGl, { MapContext } from "react-mapbox-gl";
+
+// eslint-disable-next-line new-cap
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
 });
@@ -57,4 +59,4 @@ const MapView = () => {
   );
 };
 
-export default MapView;
+export { MapView };
