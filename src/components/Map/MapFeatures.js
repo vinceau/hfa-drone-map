@@ -4,8 +4,7 @@ import { MapContext } from "react-mapbox-gl";
 
 export const MapFeatures = (props) => {
   const map = React.useContext(MapContext);
-  const initialWaypoints = props.initialWaypoints;
-  const deleteSignal = props.deleteSignal;
+  const deleteWaypoints = props.deleteWaypoints;
   const disabled = props.disabled;
 
   const selectedIndices = useRef(null);
@@ -77,13 +76,6 @@ export const MapFeatures = (props) => {
         "circle-color": "#B42222",
       },
     });
-
-    for (let i = 0; i < initialWaypoints.length; i++) {
-      insertPointAt(i, [initialWaypoints[i].long, initialWaypoints[i].lat]);
-    }
-    if (initialWaypoints.length > 0) {
-      map.panTo(points.current.features[0].geometry.coordinates);
-    }
   }
 
   function destroy() {
@@ -92,6 +84,7 @@ export const MapFeatures = (props) => {
     map.removeLayer("points");
     map.removeSource("points");
     deselectAll();
+    onChange([]);
   }
 
   function insertPointAt(index, coordinates) {
@@ -210,7 +203,7 @@ export const MapFeatures = (props) => {
     selectedIndices.current = {};
   }
 
-  function keyDownHandler(event) {
+  function downHandler(event) {
     if (event.keyCode === 27) {
       deselectAll();
     }
@@ -225,6 +218,11 @@ export const MapFeatures = (props) => {
     }
   }
 
+  function rightClickHandler() {
+    map.setBearing(0);
+    map.setPitch(0);
+  }
+
   React.useEffect(() => {
     if (!map || disabled) {
       return;
@@ -232,14 +230,16 @@ export const MapFeatures = (props) => {
 
     init();
     map.on("click", leftClickHandler);
-    window.addEventListener("keydown", keyDownHandler);
+    map.on("contextmenu", rightClickHandler);
+    window.addEventListener("keydown", downHandler);
 
     return () => {
       map.off("click", leftClickHandler);
-      window.removeEventListener("keydown", keyDownHandler);
+      map.off("contextmenu", rightClickHandler);
+      window.removeEventListener("keydown", downHandler);
       destroy();
     };
-  }, [map, disabled, deleteSignal]);
+  }, [map, deleteWaypoints, disabled]);
 
   return null;
 };
