@@ -1,6 +1,7 @@
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Tooltip from "@mui/material/Tooltip";
 import React from "react";
 
@@ -45,12 +46,12 @@ export const FileInput = (props) => {
       />
       <label htmlFor="fileInput">
         <Tooltip title={"Upload a CSV File"}>
-          <Fab component={"span"}>
+          <Fab component={"span"} color={"primary"}>
             <UploadFileIcon />
           </Fab>
         </Tooltip>
       </label>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} rows={20} />
+      <TextareaAutosize onChange={(e) => setText(e.target.value)}>{text}</TextareaAutosize>
       <Button onClick={onClick}>submit</Button>
       <pre>{result}</pre>
     </div>

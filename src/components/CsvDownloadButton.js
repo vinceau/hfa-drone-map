@@ -1,4 +1,5 @@
-import Button from "@mui/material/Button";
+import DownloadIcon from "@mui/icons-material/Download";
+import IconButton from "@mui/material/Button";
 import React from "react";
 
 import { createDownloadableFile } from "../lib/createDownloadableFile";
@@ -19,9 +20,9 @@ export const CsvDownloadButton = ({
   };
 
   return (
-    <Button disabled={disabled} onClick={onClick}>
-      download
-    </Button>
+    <IconButton disabled={disabled} onClick={onClick}>
+      <DownloadIcon color={"primary"} />
+    </IconButton>
   );
 };
 
