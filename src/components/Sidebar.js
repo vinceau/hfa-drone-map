@@ -52,7 +52,7 @@ export const Sidebar = ({ panels, currentIndex, setCurrentIndex }) => {
     setCurrentIndex(index);
   };
   return (
-    <Box sx={{ bgcolor: "background.paper" }} className={styles.sidebar}>
+    <Box className={styles.sidebar}>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} indicatorColor="secondary" textColor="inherit" variant="fullWidth">
           {panels.map((panel, i) => {

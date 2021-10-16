@@ -1,15 +1,17 @@
 .sidebar {
   position: relative;
 }
+
 .sidebar::after {
   position: absolute;
   content: "";
   height: 100%;
   width: 100%;
-  bottom: 40px;
-  left: 40px;
+  left: 0;
+  bottom: 0;
   background-image: url("../styles/images/hfa.png");
-  background-position: bottom left;
+  background-position: bottom 40px left 40px;
   background-repeat: no-repeat;
   opacity: 0.4;
+  z-index: -1;
 }
