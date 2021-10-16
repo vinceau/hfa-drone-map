@@ -2,13 +2,14 @@ import React from "react";
 
 import Button from "@mui/material/Button";
 
-export const DeleteButton = ({ deleteWaypoints, setDeleteWaypoints }) => {
+export const DeleteButton = ({ deleteSignal, sendDeleteSignal, setWaypoints }) => {
   return (
     <Button
       onClick={() => {
         if (window.confirm("Are you sure you wish to delete these waypoints?")) {
           // toggling this value causes the MapFeatures to reload, deleting the waypoints
-          setDeleteWaypoints(!deleteWaypoints);
+          setWaypoints([]);
+          sendDeleteSignal(!deleteSignal);
         }
       }}
       variant="contained"
