@@ -6,13 +6,13 @@ import { MapView } from "./Map/Map";
 
 function App() {
   const [droneLocations, setDroneLocations] = React.useState([]);
-  const [waypoints, setWaypoints] = React.useState([]);
+  const [waypoints, setWaypoints] = React.useState('');
   const onSubmit = (res) => setDroneLocations(res);
-  const onChange = (res) => {
+  const onChange = React.useCallback((res) => {
     console.log(waypoints)
-    setWaypoints(res)
+    setWaypoints(JSON.stringify(res))
     console.log(res, waypoints)
-    }  ;
+  },[waypoints])  
 
   return (
     <div className={styles.appContainer}>

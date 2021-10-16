@@ -79,6 +79,7 @@ export const MapFeatures = ({onChange}) => {
     points.current.features.splice(index, 0, addPoint(coordinates))
     lines.current.features[0].geometry.coordinates.splice(index, 0, coordinates)
     refreshMap()
+    onChange(lines.current.features[0].geometry.coordinates)
   }
 
   function addPointToEnd(coordinates) {
@@ -92,6 +93,7 @@ export const MapFeatures = ({onChange}) => {
     points.current.features.splice(index, 1)
     lines.current.features[0].geometry.coordinates.splice(index, 1)
     refreshMap()
+    onChange(lines.current.features[0].geometry.coordinates)
   }
   
   function refreshMap() {
