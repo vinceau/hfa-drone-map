@@ -1,5 +1,3 @@
-import "mapbox-gl/dist/mapbox-gl.css";
-
 import React from "react";
 import ReactMapboxGl from "react-mapbox-gl";
 

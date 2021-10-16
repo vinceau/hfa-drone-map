@@ -3,8 +3,8 @@ import React from "react";
 import styles from "./App.module.css";
 import { CsvDownloader } from "./components/CsvDownloader";
 import { FileInput } from "./components/FileInput";
-import { Sidebar } from "./components/Sidebar";
 import { MapView } from "./components/Map/Map";
+import { Sidebar } from "./components/Sidebar";
 
 function App() {
   const [pane, setPane] = React.useState(0);

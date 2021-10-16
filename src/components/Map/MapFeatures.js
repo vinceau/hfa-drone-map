@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
 import mapboxgl from "mapbox-gl";
+import React, { useRef } from "react";
 import { MapContext } from "react-mapbox-gl";
 
 export const MapFeatures = (props) => {
