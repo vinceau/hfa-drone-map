@@ -60,7 +60,7 @@ export const FileInput = (props) => {
           Submit
         </Button>
       </div>
-      <TextareaAutosize onChange={(e) => setText(e.target.value)}>{text}</TextareaAutosize>
+      <TextareaAutosize onChange={(e) => setText(e.target.value)} value={text} />
       <pre>{result}</pre>
     </div>
   );
