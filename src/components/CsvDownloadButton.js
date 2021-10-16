@@ -1,3 +1,4 @@
+import Button from "@mui/material/Button";
 import React from "react";
 
 import { createDownloadableFile } from "../lib/createDownloadableFile";
@@ -18,9 +19,9 @@ export const CsvDownloadButton = ({
   };
 
   return (
-    <button disabled={disabled} onClick={onClick}>
+    <Button disabled={disabled} onClick={onClick}>
       download
-    </button>
+    </Button>
   );
 };
 

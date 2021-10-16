@@ -1,3 +1,7 @@
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import Button from "@mui/material/Button";
+import Fab from "@mui/material/Fab";
+import Tooltip from "@mui/material/Tooltip";
 import React from "react";
 
 import { mapCsvToPositions } from "../lib/mapCsvToPositions";
@@ -31,10 +35,23 @@ export const FileInput = (props) => {
 
   return (
     <div className={styles.fileInputContainer}>
-      <label htmlFor="fileInput">Select a CSV file:</label>
-      <input type="file" id="fileInput" name="fileInput" multiple={true} onChange={onFileChange} />
+      <input
+        type="file"
+        id="fileInput"
+        name="fileInput"
+        multiple={true}
+        onChange={onFileChange}
+        className={styles.uploadInput}
+      />
+      <label htmlFor="fileInput">
+        <Tooltip title={"Upload a CSV File"}>
+          <Fab component={"span"}>
+            <UploadFileIcon />
+          </Fab>
+        </Tooltip>
+      </label>
       <textarea value={text} onChange={(e) => setText(e.target.value)} rows={20} />
-      <button onClick={onClick}>submit</button>
+      <Button onClick={onClick}>submit</Button>
       <pre>{result}</pre>
     </div>
   );
