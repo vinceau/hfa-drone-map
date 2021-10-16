@@ -9,6 +9,7 @@ import { readFileAsText } from "../lib/readFile";
 import styles from "./FileInput.module.css";
 
 const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4
+M,UL997,37.821608S,145.313996E,470668.68,3,3.4
 P,UL997,12.68,26.3,3.4,41.3,0.0`;
 
 export const FileInput = (props) => {
