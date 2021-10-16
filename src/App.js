@@ -11,7 +11,8 @@ function App() {
 
   return (
     <div className={styles.appContainer}>
-      <div>
+      <div className={styles.leftPanelContents}>
+        <img src={"images/hfa.png"} className={styles.logo} />
         <FileInput onSubmit={setDroneLocations} />
         <CsvDownloader waypoints={waypoints} />
       </div>
