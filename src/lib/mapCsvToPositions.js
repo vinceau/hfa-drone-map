@@ -1,5 +1,6 @@
 const MAX_VOLTAGE = 13.61;
 const MIN_VOLTAGE = 11.0;
+const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "batteryLvl", "avgCurrent"];
 
 export const mapCsvToPositions = (text) => {
   const outputs = {};
@@ -29,14 +30,22 @@ export const mapCsvToPositions = (text) => {
       const avgBearing = chunks[5];
       const avgCurrent = chunks[6];
 
-      console.log(lat, long, avgSpeed, avgBearing, avgCurrent);
-
       outputs[id].lat = lat;
       outputs[id].long = long;
       outputs[id].avgSpeed = avgSpeed;
       outputs[id].avgBearing = avgBearing;
       outputs[id].avgCurrent = avgCurrent;
     }
+
+    var complete = true;
+    for (var index = 1; index < KEYS.length; index++) {
+      if (!outputs[id][KEYS[index]]) {
+        outputs[id][KEYS[index]] = "Missing Data";
+        complete = false;
+      }
+    }
+
+    outputs[id].complete = complete;
   });
 
   return Object.values(outputs);
