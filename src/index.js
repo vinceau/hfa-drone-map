@@ -1,6 +1,7 @@
+import "mapbox-gl/dist/mapbox-gl.css";
 import "./index.css";
 
-import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -19,9 +20,9 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <App />
-    </MuiThemeProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root"),
 );
