@@ -5,6 +5,7 @@ const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "batteryLvl", "avgC
 export const mapCsvToPositions = (text) => {
   const outputs = {};
   const listErrors = [];
+  var noErrors = 0;
   text.split("\n").forEach((line) => {
     const chunks = line.split(",");
     if (chunks.length === 0 || chunks.length !== 7) {
@@ -39,20 +40,26 @@ export const mapCsvToPositions = (text) => {
     }
 
     var complete = true;
-    var noErrors = 0;
     for (var index = 1; index < KEYS.length; index++) {
       if (!outputs[id][KEYS[index]]) {
         outputs[id][KEYS[index]] = "Missing Data";
         complete = false;
       }
     }
-    if (!complete) {
-      noErrors += 1;
-      listErrors.push(id);
-    }
+
+    outputs[id].complete = complete;
   });
 
-  return { value: Object.values(outputs), errors: noErrors, where: listErrors };
+  const newOutput = Object.values(outputs);
+
+  for (var index = 0; index < newOutput.length; index++) {
+    if (!newOutput[index].complete) {
+      noErrors += 1;
+      listErrors.push(newOutput[index].id);
+    }
+  }
+
+  return { values: newOutput, errors: noErrors, where: listErrors };
 };
 
 const mapStringToFloat = (str) => {

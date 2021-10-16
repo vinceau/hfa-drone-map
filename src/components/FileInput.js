@@ -27,19 +27,21 @@ export const FileInput = (props) => {
   };
 
   const onClick = () => {
-    const { value, errors, where } = mapCsvToPositions(text);
-    console.log(where);
+    const { values, errors, where } = mapCsvToPositions(text);
+    console.log(values);
 
     if (errors > 0) {
-      for (var index = 0; index < where.length; i++) {
-        enqueueSnackbar("Warning message: Please import location data for drone" + where[i]);
+      for (var index = 0; index < where.length; index++) {
+        enqueueSnackbar("Warning message: Please import missing data for drone " + where[index], {
+          variant: "warning",
+        });
       }
     }
-    setResult(JSON.stringify(res, null, 2));
+    setResult(values);
 
     // Return the result to parent
     if (props.onSubmit) {
-      props.onSubmit(res);
+      props.onSubmit(values);
     }
   };
 

@@ -21,7 +21,13 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
