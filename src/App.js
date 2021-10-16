@@ -1,8 +1,7 @@
 import React from "react";
 
 import styles from "./App.module.css";
-import { CsvDownloader } from "./components/CsvDownloader";
-import { DeleteButton } from "./components/DeleteButton";
+import { ExportPanel } from "./components/ExportPanel";
 import { FileInput } from "./components/FileInput";
 import { MapView } from "./components/Map/Map";
 import { Sidebar } from "./components/Sidebar";
@@ -37,21 +36,11 @@ function App() {
           {
             label: "Export",
             contents: (
-              <div>
-                <div>
-                  {waypoints.length === 0 ? (
-                    <span>No waypoints selected</span>
-                  ) : (
-                    <ol style={{ listStyle: "decimal" }}>
-                      {waypoints.map((waypoint, i) => {
-                        return <li key={i}>{`[${waypoint.long}, ${waypoint.lat}]`}</li>;
-                      })}
-                    </ol>
-                  )}
-                </div>
-                <CsvDownloader waypoints={waypoints} />
-                <DeleteButton deleteWaypoints={deleteWaypoints} setDeleteWaypoints={setDeleteWaypoints} />
-              </div>
+              <ExportPanel
+                waypoints={waypoints}
+                deleteWaypoints={deleteWaypoints}
+                setDeleteWaypoints={setDeleteWaypoints}
+              />
             ),
           },
         ]}
