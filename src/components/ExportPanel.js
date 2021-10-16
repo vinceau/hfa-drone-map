@@ -1,13 +1,17 @@
 import React from "react";
 
+import { ClearWaypointsButton } from "./ClearWaypointsButton";
 import { CsvDownloader } from "./CsvDownloader";
-import { DeleteButton } from "./DeleteButton";
 
 export const ExportPanel = ({ waypoints, deleteSignal, sendDeleteSignal, setWaypoints }) => {
   return (
     <div>
       <CsvDownloader waypoints={waypoints} />
-      <DeleteButton deleteSignal={deleteSignal} sendDeleteSignal={sendDeleteSignal} setWaypoints={setWaypoints} />
+      <ClearWaypointsButton
+        deleteSignal={deleteSignal}
+        sendDeleteSignal={sendDeleteSignal}
+        setWaypoints={setWaypoints}
+      />
       <div>
         {waypoints.length === 0 ? (
           <span>No waypoints selected</span>
