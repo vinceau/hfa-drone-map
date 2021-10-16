@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./App.module.css";
-import { CsvDownloadButton } from "./components/CsvDownloadButton";
+import { CsvDownloader } from "./components/CsvDownloader";
 import { FileInput } from "./components/FileInput";
 import { MapView } from "./components/Map/Map";
 
@@ -13,7 +13,7 @@ function App() {
     <div className={styles.appContainer}>
       <div>
         <FileInput onSubmit={setDroneLocations} />
-        <CsvDownloadButton waypoints={waypoints} />
+        <CsvDownloader waypoints={waypoints} />
       </div>
       <MapView droneLocations={droneLocations} onChange={setWaypoints} />
     </div>

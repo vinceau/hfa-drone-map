@@ -5,17 +5,23 @@ import { createDownloadableFile } from "../lib/createDownloadableFile";
 const ROUNDING_ACCURACY = 6;
 
 export const CsvDownloadButton = ({
+  boatId,
   waypoints,
+  disabled = false,
   filename = "data.csv",
   contentType = "data:text/csv;charset=utf-8,",
 }) => {
-  let fileContents = "boatId,waypointNumber,latitude,longitude\n";
-  fileContents += waypoints.map((point, i) => generateCsvEntryString("boatId", i, point)).join("\n");
   const onClick = () => {
+    let fileContents = "boatId,waypointNumber,latitude,longitude\n";
+    fileContents += waypoints.map((point, i) => generateCsvEntryString(boatId, i, point)).join("\n");
     createDownloadableFile(fileContents, filename, contentType);
   };
 
-  return <button onClick={onClick}>download</button>;
+  return (
+    <button disabled={disabled} onClick={onClick}>
+      download
+    </button>
+  );
 };
 
 const generateCsvEntryString = (boatId, index, data) => {
