@@ -71,7 +71,15 @@ export const MapDronePoints = (props) => {
         <Feature
           key={index}
           coordinates={[loc.long, loc.lat]}
-          properties={{ DroneID: loc.id, longitude: loc.long, latitude: loc.lat }}
+          properties={{
+            DroneID: loc.id,
+            Longitude: loc.long,
+            Latitude: loc.lat,
+            "Battery Level": loc.batteryLvl,
+            "Average Speed": loc.avgSpeed,
+            "Average Bearing": loc.avgBearing,
+            "Average Current": loc.avgCurrent,
+          }}
         />
       ))}
     </Layer>
