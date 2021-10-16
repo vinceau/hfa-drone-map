@@ -1,7 +1,3 @@
-const MAX_VOLTAGE = 13.61;
-const MIN_VOLTAGE = 11.0;
-const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "batteryLvl", "avgCurrent"];
-
 export const mapCsvToPositions = (text) => {
   const outputs = {};
   const listErrors = [];
@@ -21,14 +17,11 @@ export const mapCsvToPositions = (text) => {
     }
 
     if (code === "P") {
-      var curVoltage = chunks[2] - MIN_VOLTAGE;
-      const batteryLvl =
-        Math.round((curVoltage / (MAX_VOLTAGE - MIN_VOLTAGE)) * 100, 2) + "% (" + chunks[2] + "/" + MAX_VOLTAGE + "V)";
-      outputs[id].batteryLvl = batteryLvl;
+      outputs[id].batteryVoltage = chunks[2];
     } else if (code === "M") {
       const lat = mapStringToFloat(chunks[2]);
       const long = mapStringToFloat(chunks[3]);
-      const avgSpeed = chunks[4] + " NM/H";
+      const avgSpeed = chunks[4];
       const avgBearing = chunks[5];
       const avgCurrent = chunks[6];
 
