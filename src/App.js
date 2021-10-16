@@ -1,26 +1,21 @@
 import React from "react";
 
 import styles from "./App.module.css";
+import { CsvDownloadButton } from "./components/CsvDownloadButton";
 import { FileInput } from "./FileInput";
 import { MapView } from "./Map/Map";
 
 function App() {
   const [droneLocations, setDroneLocations] = React.useState([]);
-  const [waypoints, setWaypoints] = React.useState('');
-  const onSubmit = (res) => setDroneLocations(res);
-  const onChange = React.useCallback((res) => {
-    console.log(waypoints)
-    setWaypoints(JSON.stringify(res))
-    console.log(res, waypoints)
-  },[waypoints])  
+  const [waypoints, setWaypoints] = React.useState([]);
 
   return (
     <div className={styles.appContainer}>
       <div>
-        <pre> {JSON.stringify(waypoints, null, 2)} </pre>
-        <FileInput onSubmit={onSubmit} />
+        <FileInput onSubmit={setDroneLocations} />
+        <CsvDownloadButton waypoints={waypoints} />
       </div>
-      <MapView droneLocations={droneLocations} onChange={onChange} />
+      <MapView droneLocations={droneLocations} onChange={setWaypoints} />
     </div>
   );
 }
