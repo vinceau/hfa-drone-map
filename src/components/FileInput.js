@@ -1,5 +1,3 @@
-import SendIcon from "@mui/icons-material/Send";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import React from "react";
@@ -10,11 +8,7 @@ import { DroneList } from "./DroneList";
 import styles from "./FileInput.module.css";
 import { useSnackbar } from "notistack";
 
-const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4
-P,UL997,12.68,26.3,3.4,41.3,0.0`;
-
-export const FileInput = (props) => {
-  const [text, setText] = React.useState(defaultValue);
+export const FileInput = ({ onSubmit, text, setText }) => {
   const [result, setResult] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
@@ -40,8 +34,8 @@ export const FileInput = (props) => {
     setResult(values);
 
     // Return the result to parent
-    if (props.onSubmit) {
-      props.onSubmit(values);
+    if (onSubmit) {
+      onSubmit(values);
     }
   };
 
@@ -51,6 +45,10 @@ export const FileInput = (props) => {
     const strings = await Promise.all(Array.from(files).map((f) => readFileAsText(f)));
     setText(strings.join("\n"));
   };
+
+  React.useEffect(() => {
+    onClick();
+  }, [text]);
 
   return (
     <div className={styles.fileInputContainer}>
@@ -64,11 +62,20 @@ export const FileInput = (props) => {
         className={styles.uploadInput}
       />
       <div className={styles.buttonBar}>
-        <Button onClick={onFileUploadClick} endIcon={<UploadFileIcon />} variant="contained" color="secondary">
-          Upload CSV
+        <Button onClick={onFileUploadClick} variant="contained" color="secondary">
+          Import CSV
         </Button>
-        <Button onClick={onClick} variant="contained" color="primary" endIcon={<SendIcon />}>
-          Submit
+        <Button
+          onClick={() => {
+            onSubmit([]);
+          }}
+          variant="contained"
+          color="error"
+        >
+          Clear
+        </Button>
+        <Button onClick={onClick} variant="contained" color="primary">
+          Show Drones
         </Button>
       </div>
       <TextareaAutosize

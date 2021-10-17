@@ -4,8 +4,9 @@ import { MapContext } from "react-mapbox-gl";
 
 export const MapFeatures = (props) => {
   const map = React.useContext(MapContext);
-  const deleteWaypoints = props.deleteWaypoints;
+  const deleteSignal = props.deleteSignal;
   const disabled = props.disabled;
+  const initialWaypoints = props.initialWaypoints;
 
   const selectedIndices = useRef(null);
   const points = useRef(null);
@@ -76,6 +77,13 @@ export const MapFeatures = (props) => {
         "circle-color": "#B42222",
       },
     });
+
+    for (let i = 0; i < initialWaypoints.length; i++) {
+      insertPointAt(i, [initialWaypoints[i].long, initialWaypoints[i].lat]);
+    }
+    if (initialWaypoints.length > 0) {
+      map.panTo(points.current.features[0].geometry.coordinates);
+    }
   }
 
   function destroy() {
@@ -84,7 +92,6 @@ export const MapFeatures = (props) => {
     map.removeLayer("points");
     map.removeSource("points");
     deselectAll();
-    onChange([]);
   }
 
   function insertPointAt(index, coordinates) {
@@ -203,7 +210,7 @@ export const MapFeatures = (props) => {
     selectedIndices.current = {};
   }
 
-  function downHandler(event) {
+  function keyDownHandler(event) {
     if (event.keyCode === 27) {
       deselectAll();
     }
@@ -218,11 +225,6 @@ export const MapFeatures = (props) => {
     }
   }
 
-  function rightClickHandler() {
-    map.setBearing(0);
-    map.setPitch(0);
-  }
-
   React.useEffect(() => {
     if (!map || disabled) {
       return;
@@ -230,16 +232,14 @@ export const MapFeatures = (props) => {
 
     init();
     map.on("click", leftClickHandler);
-    map.on("contextmenu", rightClickHandler);
-    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keydown", keyDownHandler);
 
     return () => {
       map.off("click", leftClickHandler);
-      map.off("contextmenu", rightClickHandler);
-      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keydown", keyDownHandler);
       destroy();
     };
-  }, [map, deleteWaypoints, disabled]);
+  }, [map, deleteSignal, disabled]);
 
   return null;
 };
