@@ -10,13 +10,13 @@ import React from "react";
 
 import { getBatteryLevelFromVoltage } from "../lib/batteryPercentageFromVoltage";
 import { BatteryLevel } from "./BatteryLevel";
-import styles from "./Dronecard.module.css";
+import styles from "./DroneCard.module.css";
 
 export const DroneCard = ({ drone, onLocationClick, onStartWaypointClick }) => {
   const batLvl = getBatteryLevelFromVoltage(drone.batteryVoltage);
   const locationMissing = drone.long === undefined || drone.lat === undefined;
   return (
-    <Card variant={"outlined"}>
+    <Card variant={"outlined"} style={{ marginBottom: 10 }}>
       <CardContent style={{ padding: "10px 20px" }}>
         <div className={styles.droneInfoContainer}>
           <div className={styles.droneInfo}>
