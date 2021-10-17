@@ -11,6 +11,7 @@ const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4\nP,UL997,12
 function App() {
   const [pane, setPane] = React.useState(0);
   const [text, setText] = React.useState(defaultValue);
+  const [drones, setDrones] = React.useState("");
   const [currentPosition, setCurrentPosition] = React.useState({ lat: -37.8136, long: 144.9631 });
   const [droneLocations, setDroneLocations] = React.useState([]);
   const [waypoints, setWaypoints] = React.useState([]);
@@ -30,6 +31,8 @@ function App() {
                   onSubmit={setDroneLocations}
                   text={text}
                   setText={setText}
+                  drones={drones}
+                  setDrones={setDrones}
                   setCurrentPosition={setCurrentPosition}
                   setStartingWaypoint={(drone) => {
                     setWaypoints([drone]);

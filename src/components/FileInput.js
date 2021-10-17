@@ -8,8 +8,7 @@ import { readFileAsText } from "../lib/readFile";
 import { DroneList } from "./DroneList";
 import styles from "./FileInput.module.css";
 
-export const FileInput = ({ onSubmit, text, setText, setCurrentPosition, setStartingWaypoint }) => {
-  const [result, setResult] = React.useState("");
+export const FileInput = ({ onSubmit, text, setText, drones, setDrones, setCurrentPosition, setStartingWaypoint }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const inputFile = React.useRef(null);
@@ -29,7 +28,7 @@ export const FileInput = ({ onSubmit, text, setText, setCurrentPosition, setStar
         variant: "warning",
       });
     }
-    setResult(values);
+    setDrones(values);
 
     // Return the result to parent
     if (onSubmit) {
@@ -43,10 +42,6 @@ export const FileInput = ({ onSubmit, text, setText, setCurrentPosition, setStar
     const strings = await Promise.all(Array.from(files).map((f) => readFileAsText(f)));
     setText(strings.join("\n"));
   };
-
-  React.useEffect(() => {
-    onClick();
-  }, [text]);
 
   return (
     <div className={styles.fileInputContainer}>
@@ -66,7 +61,7 @@ export const FileInput = ({ onSubmit, text, setText, setCurrentPosition, setStar
         <Button
           onClick={() => {
             onSubmit([]);
-            setResult("");
+            setDrones("");
           }}
           variant="contained"
           color="error"
@@ -83,7 +78,7 @@ export const FileInput = ({ onSubmit, text, setText, setCurrentPosition, setStar
         onChange={(e) => setText(e.target.value)}
         value={text}
       />
-      <DroneList drones={result} setCurrentPosition={setCurrentPosition} setStartingWaypoint={setStartingWaypoint} />
+      <DroneList drones={drones} setCurrentPosition={setCurrentPosition} setStartingWaypoint={setStartingWaypoint} />
     </div>
   );
 };
