@@ -35,8 +35,10 @@ function App() {
                   setDrones={setDrones}
                   setCurrentPosition={setCurrentPosition}
                   setStartingWaypoint={(drone) => {
-                    setWaypoints([drone]);
-                    setPane(1);
+                    if (drone.long && drone.lat) {
+                      setWaypoints([drone]);
+                      setPane(1);
+                    }
                   }}
                 />
               </div>
