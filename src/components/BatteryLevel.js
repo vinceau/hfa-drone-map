@@ -5,33 +5,46 @@ import Battery60Icon from "@mui/icons-material/Battery60";
 import Battery80Icon from "@mui/icons-material/Battery80";
 import Battery90Icon from "@mui/icons-material/Battery90";
 import BatteryAlert from "@mui/icons-material/BatteryAlert";
+import BatteryFull from "@mui/icons-material/BatteryFull";
 import BatterySaver from "@mui/icons-material/BatterySaver";
 import BatteryUnknown from "@mui/icons-material/BatteryUnknown";
+import { Tooltip } from "@mui/material";
 import React from "react";
 
 export const BatteryLevel = ({ pc }) => {
   const lvl = pc < 95 ? Math.floor(pc / 10) : 10;
+
+  let batteryLevel = <BatteryUnknown />;
   switch (lvl) {
     case 0:
-      return <BatteryAlert />;
+      batteryLevel = <BatteryAlert />;
+      break;
     case 1:
-      return <BatterySaver />;
+      batteryLevel = <BatterySaver />;
+      break;
     case 2:
-      return <Battery20Icon />;
+      batteryLevel = <Battery20Icon />;
+      break;
     case 3:
     case 4:
-      return <Battery30Icon />;
+      batteryLevel = <Battery30Icon />;
+      break;
     case 5:
-      return <Battery50Icon />;
+      batteryLevel = <Battery50Icon />;
+      break;
     case 6:
     case 7:
-      return <Battery60Icon />;
+      batteryLevel = <Battery60Icon />;
+      break;
     case 8:
-      return <Battery80Icon />;
+      batteryLevel = <Battery80Icon />;
+      break;
     case 9:
-      return <Battery90Icon />;
+      batteryLevel = <Battery90Icon />;
+      break;
     case 10:
-      return <Battery50Icon />;
+      batteryLevel = <BatteryFull />;
+      break;
   }
-  return <BatteryUnknown />;
+  return <Tooltip title={Math.max(Math.min(pc, 100), 0).toFixed(0) + "%"}>{batteryLevel}</Tooltip>;
 };

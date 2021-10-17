@@ -9,6 +9,7 @@ import { Sidebar } from "./components/Sidebar";
 
 function App() {
   const [pane, setPane] = React.useState(0);
+  const [currentPosition, setCurrentPosition] = React.useState({ lat: -37.8136, long: 144.9631 });
   const [droneLocations, setDroneLocations] = React.useState([]);
   const [waypoints, setWaypoints] = React.useState([]);
   const [deleteSignal, sendDeleteSignal] = React.useState(false);
@@ -28,7 +29,7 @@ function App() {
                   setWaypoints={setWaypoints}
                   exportMode={() => setPane(1)}
                 />
-                <FileInput onSubmit={setDroneLocations} />
+                <FileInput onSubmit={setDroneLocations} setCurrentPosition={setCurrentPosition} />
               </div>
             ),
           },
@@ -46,6 +47,7 @@ function App() {
         ]}
       />
       <MapView
+        currentPosition={currentPosition}
         droneLocations={droneLocations}
         onChange={setWaypoints}
         disableWaypointEditing={pane === 0}

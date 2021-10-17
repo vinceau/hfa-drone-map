@@ -76,6 +76,6 @@ export const Sidebar = ({ panels, currentIndex, setCurrentIndex }) => {
 
 Sidebar.propTypes = {
   setCurrentIndex: PropTypes.func.isRequired,
-  panels: PropTypes.object.isRequired,
+  panels: PropTypes.any.isRequired,
   currentIndex: PropTypes.number.isRequired,
 };

@@ -12,6 +12,18 @@ const POSITION_CIRCLE_PAINT = {
   "circle-stroke-color": "white",
 };
 
+const MISSING_DATA = "Missing Data";
+
+const renderLabel = (payload, output) => {
+  if (!payload) {
+    return MISSING_DATA;
+  }
+  if (output) {
+    return output;
+  }
+  return payload;
+};
+
 export const MapDronePoints = (props) => {
   const map = React.useContext(MapContext);
   React.useEffect(() => {
@@ -74,13 +86,13 @@ export const MapDronePoints = (props) => {
           key={index}
           coordinates={[loc.long, loc.lat]}
           properties={{
-            DroneID: loc.id,
-            Longitude: loc.long,
-            Latitude: loc.lat,
-            "Battery Level": getBatteryLevelFromVoltage(loc.batteryVoltage),
-            "Average Speed": loc.avgSpeed,
-            "Average Bearing": loc.avgBearing,
-            "Average Current": loc.avgCurrent,
+            DroneID: renderLabel(loc.id),
+            Longitude: renderLabel(loc.long),
+            Latitude: renderLabel(loc.lat),
+            "Battery Level": renderLabel(loc.batteryVoltage, getBatteryLevelFromVoltage(loc.batteryVoltage)),
+            "Average Speed": renderLabel(loc.avgSpeed, loc.avgSpeed + " NM/h"),
+            "Average Bearing": renderLabel(loc.avgBearing),
+            "Average Current": renderLabel(loc.avgCurrent),
           }}
         />
       ))}

@@ -2,13 +2,13 @@ import SendIcon from "@mui/icons-material/Send";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { useSnackbar } from "notistack";
 import React from "react";
 
 import { mapCsvToPositions } from "../lib/mapCsvToPositions";
 import { readFileAsText } from "../lib/readFile";
 import { DroneList } from "./DroneList";
 import styles from "./FileInput.module.css";
-import { useSnackbar } from "notistack";
 
 const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4
 P,UL997,12.68,26.3,3.4,41.3,0.0`;
@@ -77,7 +77,7 @@ export const FileInput = (props) => {
         onChange={(e) => setText(e.target.value)}
         value={text}
       />
-      <DroneList drones={result} />
+      <DroneList drones={result} setCurrentPosition={props.setCurrentPosition} />
     </div>
   );
 };

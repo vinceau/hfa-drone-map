@@ -55,27 +55,20 @@ export const mapCsvToPositions = (text) => {
       outputs[id].avgCurrent = avgCurrent;
     }
 
-    var complete = true;
-    for (var index = 1; index < KEYS.length; index++) {
-      if (!outputs[id][KEYS[index]]) {
-        outputs[id][KEYS[index]] = "Missing Data";
-        complete = false;
-        outputs[id].complete = complete;
-      }
-    }
-
-    const newOutput = Object.values(outputs);
-    var newListError = {};
-
-    for (var k = 0; index < newOutput.length; k++) {
-      if (!newOutput[k].complete) {
-        noErrors += 1;
-        newListError = checkingForMissingData(k, newOutput, Object.values(listErrors));
-      }
-    }
-
-    return { values: newOutput, errors: noErrors, where: listErrors, messages: newListError };
+    outputs[id].complete = KEYS.reduce((a, b) => a && !!outputs[id][b], true);
+    console.log(id, outputs[id]);
   });
+
+  const newOutput = Object.values(outputs);
+
+  for (var k = 0; index < newOutput.length; k++) {
+    if (!newOutput[k].complete) {
+      noErrors += 1;
+      newListError = checkingForMissingData(k, newOutput, Object.values(listErrors));
+    }
+  }
+
+  return { values: newOutput, errors: noErrors, where: listErrors, messages: newListError };
 };
 
 const mapStringToFloat = (str) => {
