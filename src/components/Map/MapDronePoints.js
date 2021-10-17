@@ -78,7 +78,7 @@ export const MapDronePoints = (props) => {
             Longitude: loc.long,
             Latitude: loc.lat,
             "Battery Level": getBatteryLevelFromVoltage(loc.batteryVoltage),
-            "Average Speed": loc.avgSpeed + " NM/h",
+            "Average Speed": loc.avgSpeed,
             "Average Bearing": loc.avgBearing,
             "Average Current": loc.avgCurrent,
           }}

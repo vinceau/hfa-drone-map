@@ -1,7 +1,29 @@
 const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "avgCurrent", "batteryVoltage"];
+
+function checkingForMissingData(id, outputs, listErrors) {
+  var complete = true;
+  var missingLocation = "";
+
+  for (var j = 1; j < KEYS.length; j++) {
+    if (outputs[id][KEYS[j]] === "Missing Data") {
+      // storing a string of all the locations that has missing data in the outputs.
+      console.log(listErrors);
+      listErrors[id].id = id;
+      missingLocation += KEYS[j];
+      if (j + 1 < KEYS.length) {
+        missingLocation += ", ";
+      }
+
+      listErrors[id].messages += missingLocation;
+    }
+  }
+
+  return listErrors;
+}
+
 export const mapCsvToPositions = (text) => {
   const outputs = {};
-  const listErrors = [];
+  const listErrors = {};
   var noErrors = 0;
   text.split("\n").forEach((line) => {
     const chunks = line.split(",");
@@ -15,6 +37,7 @@ export const mapCsvToPositions = (text) => {
 
     if (!outputs[id]) {
       outputs[id] = { id };
+      listErrors[id] = { id };
     }
 
     if (code === "P") {
@@ -33,33 +56,32 @@ export const mapCsvToPositions = (text) => {
       outputs[id].avgCurrent = avgCurrent;
     }
 
-    var complete = true;
     for (var index = 1; index < KEYS.length; index++) {
       if (!outputs[id][KEYS[index]]) {
         outputs[id][KEYS[index]] = "Missing Data";
         complete = false;
+        outputs[id].complete = complete;
       }
     }
 
-    outputs[id].complete = complete;
+    const newOutput = Object.values(outputs);
+    const newListError = Object.values(listErrors);
+
+    for (var k = 0; index < newOutput.length; k++) {
+      if (!newOutput[k].complete) {
+        noErrors += 1;
+        newListError = checkingForMissingData(k, newOutput, newListError);
+      }
+    }
+
+    return { values: newOutput, errors: noErrors, where: listErrors, messages: newListError };
   });
 
-  const newOutput = Object.values(outputs);
-
-  for (var index = 0; index < newOutput.length; index++) {
-    if (!newOutput[index].complete) {
-      noErrors += 1;
-      listErrors.push(newOutput[index].id);
+  const mapStringToFloat = (str) => {
+    let sign = 1;
+    if (/[SW]$/.test(str)) {
+      sign = -1;
     }
-  }
-
-  return { values: newOutput, errors: noErrors, where: listErrors };
-};
-
-const mapStringToFloat = (str) => {
-  let sign = 1;
-  if (/[SW]$/.test(str)) {
-    sign = -1;
-  }
-  return sign * parseFloat(str.substring(0, str.length - 1));
+    return sign * parseFloat(str.substring(0, str.length - 1));
+  };
 };
