@@ -16,4 +16,5 @@
 .textarea {
   resize: vertical;
   max-height: 50vh;
+  margin-bottom: 10px;
 }
