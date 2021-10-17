@@ -12,7 +12,7 @@ import styles from "./Dronecard.module.css";
 
 export const DroneCard = ({ drone, onLocationClick }) => {
   const batLvl = getBatteryLevelFromVoltage(drone.batteryVoltage);
-  const locationMissing = !(drone.long && drone.lat);
+  const locationMissing = drone.long === undefined || drone.lat === undefined;
   return (
     <Card variant={"outlined"}>
       <CardContent>
@@ -21,13 +21,13 @@ export const DroneCard = ({ drone, onLocationClick }) => {
             <DirectionsBoatIcon className={styles.boatIcon} />
             {drone.id} <BatteryLevel pc={batLvl} />
           </div>
-          <div hidden={locationMissing}>
+          {!locationMissing && (
             <Tooltip title="Center on this location" placement="top">
               <IconButton onClick={onLocationClick}>
                 <LocationSearchingIcon />
               </IconButton>
             </Tooltip>
-          </div>
+          )}
         </div>
       </CardContent>
     </Card>
