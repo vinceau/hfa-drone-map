@@ -3,7 +3,7 @@ import * as React from "react";
 import { DroneCard } from "./DroneCard";
 
 export const DroneList = (props) => {
-  const { drones, setCurrentPosition } = props;
+  const { drones, setCurrentPosition, setStartingWaypoint } = props;
   if (!drones) {
     return null;
   }
@@ -12,5 +12,12 @@ export const DroneList = (props) => {
       setCurrentPosition({ lat, long });
     }
   };
-  return drones.map((drone) => <DroneCard key={drone.id} drone={drone} onLocationClick={() => setLocation(drone)} />);
+  return drones.map((drone) => (
+    <DroneCard
+      key={drone.id}
+      drone={drone}
+      onLocationClick={() => setLocation(drone)}
+      onStartWaypointClick={() => setStartingWaypoint(drone)}
+    />
+  ));
 };

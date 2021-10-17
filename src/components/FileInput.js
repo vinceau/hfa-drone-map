@@ -8,7 +8,7 @@ import { readFileAsText } from "../lib/readFile";
 import { DroneList } from "./DroneList";
 import styles from "./FileInput.module.css";
 
-export const FileInput = ({ onSubmit, text, setText, setCurrentPosition }) => {
+export const FileInput = ({ onSubmit, text, setText, setCurrentPosition, setStartingWaypoint }) => {
   const [result, setResult] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
@@ -83,7 +83,7 @@ export const FileInput = ({ onSubmit, text, setText, setCurrentPosition }) => {
         onChange={(e) => setText(e.target.value)}
         value={text}
       />
-      <DroneList drones={result} setCurrentPosition={setCurrentPosition} />
+      <DroneList drones={result} setCurrentPosition={setCurrentPosition} setStartingWaypoint={setStartingWaypoint} />
     </div>
   );
 };

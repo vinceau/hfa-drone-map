@@ -1,5 +1,6 @@
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
+import RoomIcon from "@mui/icons-material/Room";
 import WarningIcon from "@mui/icons-material/Warning";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -11,7 +12,7 @@ import { getBatteryLevelFromVoltage } from "../lib/batteryPercentageFromVoltage"
 import { BatteryLevel } from "./BatteryLevel";
 import styles from "./Dronecard.module.css";
 
-export const DroneCard = ({ drone, onLocationClick }) => {
+export const DroneCard = ({ drone, onLocationClick, onStartWaypointClick }) => {
   const batLvl = getBatteryLevelFromVoltage(drone.batteryVoltage);
   const locationMissing = drone.long === undefined || drone.lat === undefined;
   return (
@@ -32,11 +33,18 @@ export const DroneCard = ({ drone, onLocationClick }) => {
               </div>
             </Tooltip>
           ) : (
-            <Tooltip title="Center on this location">
-              <IconButton onClick={onLocationClick}>
-                <LocationSearchingIcon />
-              </IconButton>
-            </Tooltip>
+            <div>
+              <Tooltip title="Start a waypoint">
+                <IconButton onClick={onStartWaypointClick}>
+                  <RoomIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Center on this location">
+                <IconButton onClick={onLocationClick}>
+                  <LocationSearchingIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
           )}
         </div>
       </CardContent>

@@ -4,7 +4,6 @@ import styles from "./App.module.css";
 import { ExportPanel } from "./components/ExportPanel";
 import { FileInput } from "./components/FileInput";
 import { MapView } from "./components/Map/Map";
-import { OfferMapDronePoint } from "./components/OfferMapDronePoint";
 import { Sidebar } from "./components/Sidebar";
 
 const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4\nP,UL997,12.68,26.3,3.4,41.3,0.0`;
@@ -27,16 +26,15 @@ function App() {
             label: "Import",
             contents: (
               <div>
-                <OfferMapDronePoint
-                  droneLocations={droneLocations}
-                  setWaypoints={setWaypoints}
-                  exportMode={() => setPane(1)}
-                />
                 <FileInput
                   onSubmit={setDroneLocations}
                   text={text}
                   setText={setText}
                   setCurrentPosition={setCurrentPosition}
+                  setStartingWaypoint={(drone) => {
+                    setWaypoints([drone]);
+                    setPane(1);
+                  }}
                 />
               </div>
             ),
