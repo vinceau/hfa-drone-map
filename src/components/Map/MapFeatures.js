@@ -83,6 +83,9 @@ export const MapFeatures = (props) => {
     }
     if (initialWaypoints.length > 0) {
       map.panTo(points.current.features[0].geometry.coordinates);
+      if (initialWaypoints.length === 1) {
+        handleIndexSelect(0);
+      }
     }
   }
 

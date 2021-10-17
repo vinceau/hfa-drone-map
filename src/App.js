@@ -12,6 +12,7 @@ const defaultValue = `M,UL997,37.821608S,145.313996E,470668.68,3,3.4\nP,UL997,12
 function App() {
   const [pane, setPane] = React.useState(0);
   const [text, setText] = React.useState(defaultValue);
+  const [currentPosition, setCurrentPosition] = React.useState({ lat: -37.8136, long: 144.9631 });
   const [droneLocations, setDroneLocations] = React.useState([]);
   const [waypoints, setWaypoints] = React.useState([]);
   const [deleteSignal, sendDeleteSignal] = React.useState(false);
@@ -31,7 +32,12 @@ function App() {
                   setWaypoints={setWaypoints}
                   exportMode={() => setPane(1)}
                 />
-                <FileInput onSubmit={setDroneLocations} text={text} setText={setText} />
+                <FileInput
+                  onSubmit={setDroneLocations}
+                  text={text}
+                  setText={setText}
+                  setCurrentPosition={setCurrentPosition}
+                />
               </div>
             ),
           },
@@ -50,6 +56,7 @@ function App() {
       />
       <MapView
         droneLocations={pane === 0 ? droneLocations : []}
+        currentPosition={currentPosition}
         onChange={setWaypoints}
         disableWaypointEditing={pane === 0}
         waypoints={waypoints}

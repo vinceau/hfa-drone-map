@@ -33,15 +33,8 @@ export const mapCsvToPositions = (text) => {
       outputs[id].avgCurrent = avgCurrent;
     }
 
-    var complete = true;
-    for (var index = 1; index < KEYS.length; index++) {
-      if (!outputs[id][KEYS[index]]) {
-        outputs[id][KEYS[index]] = "Missing Data";
-        complete = false;
-      }
-    }
-
-    outputs[id].complete = complete;
+    outputs[id].complete = KEYS.reduce((a, b) => a && !!outputs[id][b], true);
+    console.log(id, outputs[id]);
   });
 
   const newOutput = Object.values(outputs);

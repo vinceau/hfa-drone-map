@@ -1,14 +1,14 @@
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { useSnackbar } from "notistack";
 import React from "react";
 
 import { mapCsvToPositions } from "../lib/mapCsvToPositions";
 import { readFileAsText } from "../lib/readFile";
 import { DroneList } from "./DroneList";
 import styles from "./FileInput.module.css";
-import { useSnackbar } from "notistack";
 
-export const FileInput = ({ onSubmit, text, setText }) => {
+export const FileInput = ({ onSubmit, text, setText, setCurrentPosition }) => {
   const [result, setResult] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
@@ -85,7 +85,7 @@ export const FileInput = ({ onSubmit, text, setText }) => {
         onChange={(e) => setText(e.target.value)}
         value={text}
       />
-      <DroneList drones={result} />
+      <DroneList drones={result} setCurrentPosition={setCurrentPosition} />
     </div>
   );
 };

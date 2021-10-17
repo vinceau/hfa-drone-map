@@ -1,5 +1,5 @@
 import React from "react";
-import ReactMapboxGl, { RotationControl } from "react-mapbox-gl";
+import ReactMapboxGl, { RotationControl, ScaleControl, ZoomControl } from "react-mapbox-gl";
 
 import { MapDronePoints } from "./MapDronePoints";
 import { MapFeatures } from "./MapFeatures";
@@ -10,7 +10,14 @@ const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_KEY,
 });
 
-export const MapView = ({ droneLocations, onChange, waypoints, deleteSignal, disableWaypointEditing }) => {
+export const MapView = ({
+  currentPosition,
+  droneLocations,
+  onChange,
+  waypoints,
+  deleteSignal,
+  disableWaypointEditing,
+}) => {
   return (
     <div>
       <Map
@@ -20,8 +27,10 @@ export const MapView = ({ droneLocations, onChange, waypoints, deleteSignal, dis
           width: "100%",
         }}
       >
+        <ZoomControl />
+        <ScaleControl />
         <RotationControl />
-        <PerspectiveControl />
+        <PerspectiveControl currentPosition={currentPosition} />
         <MapDronePoints droneLocations={droneLocations} />
         <MapFeatures
           onChange={onChange}
