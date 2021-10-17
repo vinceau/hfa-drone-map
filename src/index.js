@@ -23,6 +23,7 @@ ReactDOM.render(
   <React.StrictMode>
     <SnackbarProvider
       maxSnack={3}
+      preventDuplicate={true}
       anchorOrigin={{
         vertical: "top",
         horizontal: "center",

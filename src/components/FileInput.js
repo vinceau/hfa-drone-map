@@ -26,6 +26,7 @@ export const FileInput = ({ onSubmit, text, setText, drones, setDrones, setCurre
     if (errors.length > 0) {
       enqueueSnackbar(`Missing data for drone(s): ${errors.join(", ")}`, {
         variant: "warning",
+        key: "missing-data-warning",
       });
     }
     setDrones(values);
