@@ -7,44 +7,54 @@ import Battery90Icon from "@mui/icons-material/Battery90";
 import BatteryAlert from "@mui/icons-material/BatteryAlert";
 import BatteryFull from "@mui/icons-material/BatteryFull";
 import BatterySaver from "@mui/icons-material/BatterySaver";
-import BatteryUnknown from "@mui/icons-material/BatteryUnknown";
-import { Tooltip } from "@mui/material";
 import React from "react";
 
-export const BatteryLevel = ({ pc }) => {
-  const lvl = pc < 95 ? Math.floor(pc / 10) : 10;
+export const BatteryLevel = ({ percent }) => {
+  const BatteryIcon = getBatteryIconFromPercent(percent);
+  return (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <span style={{ color: getBatteryColorFromPercent(percent) }}>
+        <BatteryIcon color="inherit" />
+      </span>{" "}
+      <span>{percent.toFixed(1)}%</span>
+    </div>
+  );
+};
 
-  let batteryLevel = <BatteryUnknown />;
-  switch (lvl) {
-    case 0:
-      batteryLevel = <BatteryAlert />;
-      break;
-    case 1:
-      batteryLevel = <BatterySaver />;
-      break;
-    case 2:
-      batteryLevel = <Battery20Icon />;
-      break;
-    case 3:
-    case 4:
-      batteryLevel = <Battery30Icon />;
-      break;
-    case 5:
-      batteryLevel = <Battery50Icon />;
-      break;
-    case 6:
-    case 7:
-      batteryLevel = <Battery60Icon />;
-      break;
-    case 8:
-      batteryLevel = <Battery80Icon />;
-      break;
-    case 9:
-      batteryLevel = <Battery90Icon />;
-      break;
-    case 10:
-      batteryLevel = <BatteryFull />;
-      break;
+const getBatteryIconFromPercent = (percent) => {
+  if (percent < 10) {
+    return BatteryAlert;
   }
-  return <Tooltip title={Math.max(Math.min(pc, 100), 0).toFixed(0) + "%"}>{batteryLevel}</Tooltip>;
+  if (percent < 20) {
+    return BatterySaver;
+  }
+  if (percent < 30) {
+    return Battery20Icon;
+  }
+  if (percent < 45) {
+    return Battery30Icon;
+  }
+  if (percent < 55) {
+    return Battery50Icon;
+  }
+  if (percent < 65) {
+    return Battery60Icon;
+  }
+  if (percent < 85) {
+    return Battery80Icon;
+  }
+  if (percent < 95) {
+    return Battery90Icon;
+  }
+  return BatteryFull;
+};
+
+const getBatteryColorFromPercent = (percent) => {
+  if (percent < 15) {
+    return "red";
+  }
+  if (percent < 45) {
+    return "orange";
+  }
+  return "green";
 };

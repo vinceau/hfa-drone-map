@@ -1,5 +1,6 @@
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
+import WarningIcon from "@mui/icons-material/Warning";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
@@ -15,14 +16,23 @@ export const DroneCard = ({ drone, onLocationClick }) => {
   const locationMissing = drone.long === undefined || drone.lat === undefined;
   return (
     <Card variant={"outlined"}>
-      <CardContent>
-        <div className={styles.droneId}>
-          <div className={locationMissing ? styles.locationMissing : ""}>
-            <DirectionsBoatIcon className={styles.boatIcon} />
-            {drone.id} <BatteryLevel pc={batLvl} />
+      <CardContent style={{ padding: "10px 20px" }}>
+        <div className={styles.droneInfoContainer}>
+          <div className={styles.droneInfo}>
+            <div className={styles.droneName}>
+              <DirectionsBoatIcon className={styles.boatIcon} />
+              {drone.id}
+            </div>
+            <BatteryLevel percent={batLvl} />
           </div>
-          {!locationMissing && (
-            <Tooltip title="Center on this location" placement="top">
+          {locationMissing ? (
+            <Tooltip title="This drone has missing data">
+              <div style={{ color: "orange" }}>
+                <WarningIcon color="inherit" />
+              </div>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Center on this location">
               <IconButton onClick={onLocationClick}>
                 <LocationSearchingIcon />
               </IconButton>

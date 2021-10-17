@@ -1,9 +1,19 @@
-.droneId {
+.droneInfoContainer {
   font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 10px;
   display: flex;
+  align-content: center;
   justify-content: space-between;
+}
+
+.droneInfo {
+  display: flex;
+  align-items: center;
+}
+
+.droneName {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 }
 
 .boatIcon {
