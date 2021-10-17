@@ -10,6 +10,10 @@ import BatterySaver from "@mui/icons-material/BatterySaver";
 import React from "react";
 
 export const BatteryLevel = ({ percent }) => {
+  if (isNaN(percent)) {
+    return null;
+  }
+
   const BatteryIcon = getBatteryIconFromPercent(percent);
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
