@@ -8,7 +8,7 @@ const POSITION_CIRCLE_PAINT = {
   "circle-stroke-width": 2,
   "circle-radius": 8,
   "circle-blur": 0.15,
-  "circle-color": "#3770C6",
+  "circle-color": "rgba(55, 112, 198, 0.8)",
   "circle-stroke-color": "white",
 };
 
