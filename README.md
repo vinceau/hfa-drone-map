@@ -1,21 +1,49 @@
 # HFA Drone Map
 
+## Setup
+
+This application uses the Mapbox API for rendering map information.
+You will need to make sure that the environment variable `REACT_APP_MAPBOX_KEY` is defined with your Mapbox API key.
+
+Copy the `.env.example` into a file called `.env`, and replace the example text with your key. This `.env` file is automatically read when building the web page.
+
 ## Development
 
-In the project directory, you can run:
+### Prerequisites
 
-### `npm install`
+These are the applications you will need to install in order to build this project:
 
-To install dependencies.
+- [Git](https://git-scm.com/downloads)
+- [Node v14+](https://nodejs.org/en/)
 
-### `npm run start`
+### Build Steps
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+First, clone the repo.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+```bash
+git clone https://github.com/vinceau/hfa-drone-map.git
+```
 
-### `npm run build`
+Then install the dependencies.
 
-Builds the app for production to the build folder.
+```bash
+npm install
+```
+
+To run the app in development mode:
+
+```bash
+npm run start
+```
+
+Then open <http://localhost:3000> to view it in the browser.
+
+The page will reload if you make edits. You will also see any lint errors in the console.
+
+To build the app for prodcution:
+
+```bash
+npm run build
+```
+
+The resulting bundle will be in the `build` folder.
