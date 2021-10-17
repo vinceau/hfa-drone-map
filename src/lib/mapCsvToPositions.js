@@ -1,7 +1,6 @@
 const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "avgCurrent", "batteryVoltage"];
 
 function checkingForMissingData(id, outputs, listErrors) {
-  var complete = true;
   var missingLocation = "";
 
   for (var j = 1; j < KEYS.length; j++) {
@@ -56,6 +55,7 @@ export const mapCsvToPositions = (text) => {
       outputs[id].avgCurrent = avgCurrent;
     }
 
+    var complete = true;
     for (var index = 1; index < KEYS.length; index++) {
       if (!outputs[id][KEYS[index]]) {
         outputs[id][KEYS[index]] = "Missing Data";
@@ -65,23 +65,23 @@ export const mapCsvToPositions = (text) => {
     }
 
     const newOutput = Object.values(outputs);
-    const newListError = Object.values(listErrors);
+    var newListError = {};
 
     for (var k = 0; index < newOutput.length; k++) {
       if (!newOutput[k].complete) {
         noErrors += 1;
-        newListError = checkingForMissingData(k, newOutput, newListError);
+        newListError = checkingForMissingData(k, newOutput, Object.values(listErrors));
       }
     }
 
     return { values: newOutput, errors: noErrors, where: listErrors, messages: newListError };
   });
+};
 
-  const mapStringToFloat = (str) => {
-    let sign = 1;
-    if (/[SW]$/.test(str)) {
-      sign = -1;
-    }
-    return sign * parseFloat(str.substring(0, str.length - 1));
-  };
+const mapStringToFloat = (str) => {
+  let sign = 1;
+  if (/[SW]$/.test(str)) {
+    sign = -1;
+  }
+  return sign * parseFloat(str.substring(0, str.length - 1));
 };

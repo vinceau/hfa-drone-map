@@ -27,7 +27,7 @@ export const FileInput = (props) => {
   };
 
   const onClick = () => {
-    const { values, errors, where } = mapCsvToPositions(text);
+    const { values, errors, where, messages } = mapCsvToPositions(text);
     console.log(values);
 
     if (errors > 0) {
