@@ -20,11 +20,12 @@ export const DroneCard = ({ drone, onLocationClick, onStartWaypointClick }) => {
       <CardContent style={{ padding: "10px 20px" }}>
         <div className={styles.droneInfoContainer}>
           <div className={styles.droneInfo}>
-            <div className={styles.droneName}>
+            <div>
               <DirectionsBoatIcon className={styles.boatIcon} />
               {drone.id}
             </div>
             <BatteryLevel percent={batLvl} />
+            {!locationMissing && <div>{`Lat: ${drone.lat.toFixed(2)}, Long: ${drone.long.toFixed(2)}`}</div>}
           </div>
           {locationMissing ? (
             <Tooltip title="This drone has missing data">

@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.droneName {
+.droneInfo > * {
   display: flex;
   align-items: center;
   margin-right: 10px;
