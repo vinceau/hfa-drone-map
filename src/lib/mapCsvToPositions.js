@@ -1,11 +1,10 @@
 const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "avgCurrent", "batteryVoltage"];
 export const mapCsvToPositions = (text) => {
   const outputs = {};
-  const listErrors = [];
-  var noErrors = 0;
-  text.split("\n").forEach((line) => {
+  text.split("\n").forEach((line, i) => {
+    console.log("line: ", line);
     const chunks = line.split(",");
-    if (chunks.length === 0 || chunks.length !== 7) {
+    if (chunks.length < 2) {
       return null;
     }
     console.log(chunks);
@@ -17,20 +16,24 @@ export const mapCsvToPositions = (text) => {
       outputs[id] = { id };
     }
 
-    if (code === "P") {
-      outputs[id].batteryVoltage = chunks[2];
-    } else if (code === "M") {
-      const lat = mapStringToFloat(chunks[2]);
-      const long = mapStringToFloat(chunks[3]);
-      const avgSpeed = chunks[4];
-      const avgBearing = chunks[5];
-      const avgCurrent = chunks[6];
+    try {
+      if (code === "P") {
+        outputs[id].batteryVoltage = chunks[2];
+      } else if (code === "M") {
+        const lat = mapStringToFloat(chunks[2]);
+        const long = mapStringToFloat(chunks[3]);
+        const avgSpeed = chunks[4];
+        const avgBearing = chunks[5];
+        const avgCurrent = chunks[6];
 
-      outputs[id].lat = lat;
-      outputs[id].long = long;
-      outputs[id].avgSpeed = avgSpeed;
-      outputs[id].avgBearing = avgBearing;
-      outputs[id].avgCurrent = avgCurrent;
+        outputs[id].lat = lat;
+        outputs[id].long = long;
+        outputs[id].avgSpeed = avgSpeed;
+        outputs[id].avgBearing = avgBearing;
+        outputs[id].avgCurrent = avgCurrent;
+      }
+    } catch (err) {
+      console.warn(`Error processing line ${i + 1}, drone id: ${id}`);
     }
 
     outputs[id].complete = KEYS.reduce((a, b) => a && !!outputs[id][b], true);
@@ -38,15 +41,9 @@ export const mapCsvToPositions = (text) => {
   });
 
   const newOutput = Object.values(outputs);
-
-  for (var index = 0; index < newOutput.length; index++) {
-    if (!newOutput[index].complete) {
-      noErrors += 1;
-      listErrors.push(newOutput[index].id);
-    }
-  }
-
-  return { values: newOutput, errors: noErrors, where: listErrors };
+  const listErrors = newOutput.filter((output) => !output.complete).map((output) => output.id);
+  console.log(listErrors);
+  return { values: newOutput, errors: listErrors };
 };
 
 const mapStringToFloat = (str) => {

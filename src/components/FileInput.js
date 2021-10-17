@@ -27,15 +27,13 @@ export const FileInput = (props) => {
   };
 
   const onClick = () => {
-    const { values, errors, where } = mapCsvToPositions(text);
+    const { values, errors } = mapCsvToPositions(text);
     console.log(values);
 
-    if (errors > 0) {
-      for (var index = 0; index < where.length; index++) {
-        enqueueSnackbar("Warning message: Please import missing data for drone " + where[index], {
-          variant: "warning",
-        });
-      }
+    if (errors.length > 0) {
+      enqueueSnackbar(`Missing data for drone(s): ${errors.join(", ")}`, {
+        variant: "warning",
+      });
     }
     setResult(values);
 
