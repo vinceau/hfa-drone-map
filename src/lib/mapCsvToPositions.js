@@ -1,28 +1,7 @@
 const KEYS = ["id", "lat", "long", "avgSpeed", "avgBearing", "avgCurrent", "batteryVoltage"];
-
-function checkingForMissingData(id, outputs, listErrors) {
-  var missingLocation = "";
-
-  for (var j = 1; j < KEYS.length; j++) {
-    if (outputs[id][KEYS[j]] === "Missing Data") {
-      // storing a string of all the locations that has missing data in the outputs.
-      console.log(listErrors);
-      listErrors[id].id = id;
-      missingLocation += KEYS[j];
-      if (j + 1 < KEYS.length) {
-        missingLocation += ", ";
-      }
-
-      listErrors[id].messages += missingLocation;
-    }
-  }
-
-  return listErrors;
-}
-
 export const mapCsvToPositions = (text) => {
   const outputs = {};
-  const listErrors = {};
+  const listErrors = [];
   var noErrors = 0;
   text.split("\n").forEach((line) => {
     const chunks = line.split(",");
@@ -36,7 +15,6 @@ export const mapCsvToPositions = (text) => {
 
     if (!outputs[id]) {
       outputs[id] = { id };
-      listErrors[id] = { id };
     }
 
     if (code === "P") {
@@ -60,15 +38,16 @@ export const mapCsvToPositions = (text) => {
   });
 
   const newOutput = Object.values(outputs);
+  var newListError = {};
 
-  for (var k = 0; index < newOutput.length; k++) {
+  for (var k = 0; k < newOutput.length; k++) {
     if (!newOutput[k].complete) {
       noErrors += 1;
-      newListError = checkingForMissingData(k, newOutput, Object.values(listErrors));
+      listErrors.push(newOutput[k].id);
     }
   }
 
-  return { values: newOutput, errors: noErrors, where: listErrors, messages: newListError };
+  return { values: newOutput, errors: noErrors, where: listErrors };
 };
 
 const mapStringToFloat = (str) => {
