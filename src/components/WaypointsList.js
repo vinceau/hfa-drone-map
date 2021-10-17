@@ -7,6 +7,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 
+const ROUNDING_ACCURACY = 6;
+
 export const WaypointsList = ({ waypoints }) => {
   return (
     <TableContainer component={Paper}>
@@ -31,8 +33,8 @@ export const WaypointsList = ({ waypoints }) => {
                 <TableCell component="th" scope="row">
                   {i + 1}
                 </TableCell>
-                <TableCell align="right">{waypoint.long}</TableCell>
-                <TableCell align="right">{waypoint.lat}</TableCell>
+                <TableCell align="right">{waypoint.long.toFixed(ROUNDING_ACCURACY)}</TableCell>
+                <TableCell align="right">{waypoint.lat.toFixed(ROUNDING_ACCURACY)}</TableCell>
               </TableRow>
             ))
           )}

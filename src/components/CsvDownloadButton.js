@@ -21,7 +21,7 @@ export const CsvDownloadButton = ({
 
   return (
     <Button disabled={disabled} onClick={onClick} variant="contained" endIcon={<DownloadIcon />}>
-      Download
+      Export
     </Button>
   );
 };

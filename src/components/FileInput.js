@@ -68,6 +68,7 @@ export const FileInput = ({ onSubmit, text, setText }) => {
         <Button
           onClick={() => {
             onSubmit([]);
+            setResult("");
           }}
           variant="contained"
           color="error"
